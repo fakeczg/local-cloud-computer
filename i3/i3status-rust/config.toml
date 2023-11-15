@@ -72,7 +72,7 @@ idle_fg = "#ffd700"
 
 [[block]]
 block = "xrandr"
-format = " $icon $brightness $resolution "
+format = " $icon    $brightness $resolution "
 [block.theme_overrides]
 idle_bg = "#3a506b"
 idle_fg = "#faf3dd"
@@ -81,8 +81,8 @@ idle_fg = "#faf3dd"
 block = "time"
 interval = 60
 [block.format]
-full = " $icon $timestamp.datetime(f:'%Y-%m-%d %R', l:fr_BE) "
-short = " $icon $timestamp.datetime(f:%R) "
+full = " $icon   $timestamp.datetime(f:'%Y-%m-%d %R', l:fr_BE) "
+short = " $icon   $timestamp.datetime(f:%R) "
 [block.theme_overrides]
 idle_bg = "#1b263b"
 idle_fg = "#eae2b7"
