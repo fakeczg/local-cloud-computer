@@ -159,5 +159,6 @@ mode "resize" {
 
 # 启动 i3bar 并使用 i3status 作为其状态信息源
 bar {
-        status_command i3status
+        #status_command i3status
+        status_command i3status-rs
 }
