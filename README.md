@@ -11,3 +11,6 @@
 # vscode
 - `ln -fs /data/bin/tools/vscode/settings.json  /home/fovt/.config/Code/User/settings.json`
 - `ln -fs /data/bin/tools/vscode/keybindings.json  /home/fovt/.config/Code/User/keybindings.json`
+
+# md
+- `markdown一些常用的操作`
