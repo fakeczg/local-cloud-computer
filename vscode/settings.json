@@ -1,0 +1,221 @@
+{
+    "search.exclude": {
+        "**/.git"           :true,
+        "**/.gitee"         :true,
+        // "demos/"            :true,
+        // "docs/"             :true,
+        // "projects/"         :true,
+        // "templates/[!i]*/"  :true,
+        // "components/[!d]*"  :true,
+        // "drivers/"          :true,
+        // "scripts/"          :true,
+        // "user/"             :true,
+       //"**/mesa-21.0.1/"  :true,
+       "binary_ft_pci_wayland_debug/"   :true,
+        ".clang-format*"    :true,
+        ".cppcheck-ignore"  :true,
+        ".gitignore"        :true,
+        ".gitlab-ci.yml"    :true,
+        "**/LICENSE"        :true
+    },
+
+    "files.exclude": {
+        "**/.git"           :true,
+        "**/.gitee"         :true,
+       //"binary_ft_pci_wayland_debug/"   :true,
+        // "demos/"            :true,
+        // "docs/"             :true,
+        // "projects/"         :true,
+        // "templates/[!i]*/"  :true,
+        // "components/[!d]*"  :true,
+        // "drivers/"          :true,
+        // "scripts/"          :true,
+        // "user/"             :true,
+        ".clang-format*"    :true,
+        ".cppcheck-ignore"  :true,
+        ".gitignore"        :true,
+        ".gitlab-ci.yml"    :true,
+        "**/LICENSE"        :true
+    },
+
+    "git.openRepositoryInParentFolders": "never",
+    "clangd.detectExtensionConflicts": false,
+    // "editor.lineNumbers": "relative",
+    "vim.leader": "<space>",
+    "vim.easymotion":true,
+    "vim.surround": true,
+    "vim.useSystemClipboard": true,
+    "vim.hlsearch": true,
+    "vim.sneak": true,
+    /* 取消全局快捷键对应vim中的映射 */
+    "vim.handleKeys": {
+           "<C-f>": false,
+},
+/* vim可视模式非递归键位绑定*/
+"vim.visualModeKeyBindingsNonRecursive": [
+    {
+        "before": ["j"],
+        "commands": [{
+          "command": "accelerated.cursorDown"
+        }]
+      },
+      {
+        "before": ["k"],
+        "commands": [{
+          "command": "accelerated.cursorUp"
+        }]
+      }
+],
+/* vim插入模式非递归键位绑定*/
+"vim.insertModeKeyBindingsNonRecursive": [
+    {
+        "before": ["j", "k"],
+        "after": ["<Esc>"]
+    },
+    {
+        "before": ["k", "j"],
+        "after": ["<Esc>"]
+    },
+],
+/* vim正常模式非递归键位绑定*/
+"vim.normalModeKeyBindingsNonRecursive": [
+    /* Acclerated Up Down 插件, like accelerated-jk for Vim */
+    {
+        "before": ["j"],
+        "commands": [{
+          "command": "accelerated.cursorDown"
+        }]
+      },
+      {
+        "before": ["k"],
+        "commands": [{
+          "command": "accelerated.cursorUp"
+        }]
+      },
+    /* easymotion快捷键定义, leader + w = start of word*/
+    {
+        "before": [
+            "leader",
+            "w"
+        ],
+        "after": [
+            "leader",
+            "leader",
+            "leader",
+            "b",
+            "d",
+            "w"
+        ]
+    },
+    /* 快捷键定义, 尽量保持与我的nvim一致 */
+    {
+        "before": [
+            "g",
+            "h"
+        ],
+        "commands": [
+           {"command": "editor.action.goToReferences"},
+        ]
+    },
+    {
+        "before": [
+            "K",
+        ],
+        "after": [
+            "g",
+            "h"
+        ]
+    },
+    {
+        "before": [
+            "q",
+            "q"
+        ],
+        "commands": [
+            "workbench.action.closeActiveEditor"
+        ]
+    },
+    {
+        "before": [
+            "leader",
+            "f",
+            "w"
+        ],
+        "commands": [
+            "workbench.action.findInFiles"
+        ]
+    },
+    {
+        "before": [
+            "leader",
+            "f",
+            "f"
+        ],
+        "commands": [
+            "workbench.action.quickOpen"
+        ]
+    },
+    {
+        "before": [
+            "leader",
+            "f",
+            "c"
+        ],
+        "commands": [
+            "actions.find"
+        ],
+        "when": [
+            "editorFocus || editorIsOpen"
+        ]
+    },
+    {
+        "before": [
+            "c",
+            "w",
+        ],
+        "after": [
+            "\"",
+            "_",
+            "c",
+            "w",
+        ],
+    },
+],
+
+"cmake.configureOnOpen": true,
+"winopacity.opacity": 50,
+"C_Cpp.inactiveRegionOpacity": 0.55,
+"editor.fontSize": 16,
+"editor.mouseWheelZoom": true,
+"editor.tabSize": 2,
+"workbench.colorCustomizations": {
+    // 写在 Atom One Light  里面则只对该主题有效
+    "[Atom One Light]": {
+        "editor.background": "#c5f3cb",  
+        "sideBar.background": "#b8e4be",
+        "activityBar.background": "#9cce9c", 
+        // 终端前景背景色
+        "terminal.foreground" : "#141416",
+        "terminal.background" : "#a0ecd9",
+
+        "editor.selectionHighlightBorder": "#94767c00",
+        "editor.selectionHighlightBackground": "#f3bf708c",
+        "editorIndentGuide.activeBackground":"#9ba4af",
+        "editorBracketMatch.background": "#ff8a05a9",
+        "editorBracketMatch.border": "#ff0000",
+        "tab.activeBackground": "#c0d9f070",
+
+        "titleBar.activeBackground": "#839eb870"
+    },
+    "editorLineNumber.foreground": "#f19012",
+},
+"workbench.statusBar.feedback.visible": false,
+"workbench.startupEditor": "newUntitledFile",
+"workbench.colorTheme": "Atom One Light",
+"pasteImage.path": "${currentFileDir}/vscodemk",
+"pasteImage.namePrefix": "mk-",
+"pasteImage.defaultName": "Y_MMDD_HHmmss",
+"[c]": {
+    "editor.defaultFormatter": "ms-vscode.cpptools"
+},
+}

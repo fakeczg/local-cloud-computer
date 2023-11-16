@@ -7,3 +7,7 @@
 ## i3status and i3status-rust
 - `ln -fs /data/bin/tools/i3/i3status-rust  ~/.config`
 - `ln -fs /data/bin/tools/i3/i3status  ~/.config`
+
+# vscode
+- `ln -fs /data/bin/tools/vscode/settings.json  /home/fovt/.config/Code/User/settings.json`
+- `ln -fs /data/bin/tools/vscode/keybindings.json  /home/fovt/.config/Code/User/keybindings.json`

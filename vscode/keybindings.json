@@ -1,0 +1,60 @@
+// 将键绑定放在此文件中以覆盖默认值
+[
+    {
+        "key": "alt+left",
+        "command": "workbench.action.navigateBack",
+        "when": "canNavigateBack"
+    },
+    {
+        "key": "alt+left",
+        "command": "workbench.action.quickInputBack",
+        "when": "inQuickOpen"
+    },
+    {
+        "key": "alt+right",
+        "command": "workbench.action.navigateForward",
+        "when": "canNavigateForward"
+    },
+    {
+        "key": "alt+j",
+        "command": "extension.vim_ctrl+pagedown",
+        "when": "editorTextFocus && vim.active && vim.use<C-pagedown> && !inDebugRepl"
+    },
+    {
+        "key": "alt+k",
+        "command": "extension.vim_ctrl+pageup",
+        "when": "editorTextFocus && vim.active && vim.use<C-pageup> && !inDebugRepl"
+    },
+    {
+        "key": "alt+p",
+        "command": "workbench.action.quickOpen"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "-workbench.action.quickOpen"
+    },
+    // {
+    //     "key": "g h",
+    //     "command": "editor.action.goToReferences",
+    //     "when": "editorHasReferenceProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
+    // }
+    // 选择下一个搜索结果
+    {
+        "key": "ctrl+j",
+        "command": "search.action.focusNextSearchResult",
+        "when": "hasSearchResult"
+    },
+    // 选择上一个搜索结果
+    {
+        "key": "ctrl+k",
+        "command": "search.action.focusPreviousSearchResult",
+        "when": "hasSearchResult"
+    },
+    {
+        "key": "ctrl+e", // 例如 "ctrl+e"
+        "command": "workbench.action.focusActiveEditorGroup",
+        "when": "searchViewletVisible && searchInputBoxFocus"
+    },
+
+]
+
