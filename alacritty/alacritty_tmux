@@ -1,0 +1,2 @@
+#!/bin/bash
+alacritty -e bash -c 'tmux attach || tmux new-session'

@@ -16,6 +16,8 @@
 - https://github.com/ayamir/nvimdots
 - `nvim/gen_patch.sh`
 
+# alacritty
+- `sudo ln -fs /data/bin/tools/alacritty/alacritty_tmux /usr/bin/`
 
 # md
 - `markdown一些常用的操作`
