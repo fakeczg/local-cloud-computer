@@ -1,0 +1,97 @@
+From 795dbd095da891c2e6c67824c257aa692a94f390 Mon Sep 17 00:00:00 2001
+From: fovt <chenzigui1762@phytium.com.cn>
+Date: Fri, 17 Nov 2023 10:43:11 +0800
+Subject: [PATCH] add my custom content
+
+---
+ lua/core/mapping.lua                              | 3 +++
+ lua/core/options.lua                              | 5 +++--
+ lua/core/settings.lua                             | 2 ++
+ lua/keymap/completion.lua                         | 5 +++++
+ lua/modules/configs/completion/servers/clangd.lua | 3 ++-
+ 5 files changed, 15 insertions(+), 3 deletions(-)
+
+diff --git a/lua/core/mapping.lua b/lua/core/mapping.lua
+index ea53edc..79d364f 100644
+--- a/lua/core/mapping.lua
++++ b/lua/core/mapping.lua
+@@ -34,6 +34,9 @@ local core_map = {
+ 	["n|<C-q>"] = map_cr("wq"):with_desc("edit: Save file and quit"),
+ 	["n|<A-S-q>"] = map_cr("q!"):with_desc("edit: Force quit"),
+ 	["n|<leader>o"] = map_cr("setlocal spell! spelllang=en_us"):with_desc("edit: Toggle spell check"),
++	["n|<leader>i"] = map_cr("set list! list?"):with_noremap():with_desc("editn: Toggle list"),
++	["n|<leader>tt"] = map_cr("set expandtab! expandtab?"):with_noremap():with_desc("editn: Toggle expandtab"),
++	["n|cw"] = map_cmd('"_cw'):with_noremap(),
+ 	["n|tn"] = map_cr("tabnew"):with_noremap():with_silent():with_desc("tab: Create a new tab"),
+ 	["n|tk"] = map_cr("tabnext"):with_noremap():with_silent():with_desc("tab: Move to next tab"),
+ 	["n|tj"] = map_cr("tabprevious"):with_noremap():with_silent():with_desc("tab: Move to previous tab"),
+diff --git a/lua/core/options.lua b/lua/core/options.lua
+index d857516..75003e6 100644
+--- a/lua/core/options.lua
++++ b/lua/core/options.lua
+@@ -45,9 +45,10 @@ local function load_options()
+ 		jumpoptions = "stack",
+ 		laststatus = 2,
+ 		linebreak = true,
+-		list = true,
+-		listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←",
+ 		magic = true,
++		list = false,
++		--listchars = "trail:·,tab:├─,space:·,eol:⏎,nbsp:+,extends:→,precedes:←",
++		listchars = "tab:├─,nbsp:+,trail:·,extends:→,precedes:←",
+ 		mousescroll = "ver:3,hor:6",
+ 		number = true,
+ 		previewheight = 12,
+diff --git a/lua/core/settings.lua b/lua/core/settings.lua
+index fd44daf..1660060 100644
+--- a/lua/core/settings.lua
++++ b/lua/core/settings.lua
+@@ -31,6 +31,8 @@ settings["format_modifications_only"] = false
+ settings["format_disabled_dirs"] = {
+ 	-- Example
+ 	"~/format_disabled_dir",
++	"/data/src/",
++	"/data/bin/",
+ }
+ 
+ -- Set it to false if diagnostics virtual text is annoying.
+diff --git a/lua/keymap/completion.lua b/lua/keymap/completion.lua
+index 5472eba..01ad987 100644
+--- a/lua/keymap/completion.lua
++++ b/lua/keymap/completion.lua
+@@ -1,6 +1,7 @@
+ local bind = require("keymap.bind")
+ local map_cr = bind.map_cr
+ local map_cmd = bind.map_cmd
++local map_cu = bind.map_cu
+ local map_callback = bind.map_callback
+ 
+ local plug_map = {
+@@ -50,6 +51,10 @@ function mapping.lsp(buf)
+ 		["n|gd"] = map_cr("Glance definitions"):with_silent():with_buffer(buf):with_desc("lsp: Preview definition"),
+ 		["n|gD"] = map_cr("Lspsaga goto_definition"):with_silent():with_buffer(buf):with_desc("lsp: Goto definition"),
+ 		["n|gh"] = map_cr("Glance references"):with_silent():with_buffer(buf):with_desc("lsp: Show reference"),
++		["n|gE"] = map_cu("<Cmd> lua vim.lsp.buf.references()<CR>")
++			:with_noremap()
++			:with_silent()
++			:with_desc("lsp: Preview definition on quicklist"),
+ 		["n|<leader>ci"] = map_cr("Lspsaga incoming_calls")
+ 			:with_silent()
+ 			:with_buffer(buf)
+diff --git a/lua/modules/configs/completion/servers/clangd.lua b/lua/modules/configs/completion/servers/clangd.lua
+index 7661177..326adb8 100644
+--- a/lua/modules/configs/completion/servers/clangd.lua
++++ b/lua/modules/configs/completion/servers/clangd.lua
+@@ -46,7 +46,8 @@ return function(options)
+ 			"--background-index",
+ 			"--pch-storage=memory",
+ 			-- You MUST set this arg ↓ to your c/cpp compiler location (if not included)!
+-			"--query-driver=" .. get_binary_path_list({ "clang++", "clang", "gcc", "g++" }),
++			"--query-driver="
++				.. get_binary_path_list({ "aarch64-linux-gcc", "aarch64-linux-g++", "clang++", "clang", "gcc", "g++" }),
+ 			"--clang-tidy",
+ 			"--all-scopes-completion",
+ 			"--completion-style=detailed",
+-- 
+2.42.1
+
