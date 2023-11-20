@@ -161,4 +161,5 @@ mode "resize" {
 bar {
         #status_command i3status
         status_command i3status-rs
+        height 18
 }
