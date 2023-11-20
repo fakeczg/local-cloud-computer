@@ -1,4 +1,4 @@
-From 795dbd095da891c2e6c67824c257aa692a94f390 Mon Sep 17 00:00:00 2001
+From 9bdd313999efb8ecc547a61faeaee2c5320d9f1b Mon Sep 17 00:00:00 2001
 From: fovt <chenzigui1762@phytium.com.cn>
 Date: Fri, 17 Nov 2023 10:43:11 +0800
 Subject: [PATCH] add my custom content
@@ -6,10 +6,10 @@ Subject: [PATCH] add my custom content
 ---
  lua/core/mapping.lua                              | 3 +++
  lua/core/options.lua                              | 5 +++--
- lua/core/settings.lua                             | 2 ++
+ lua/core/settings.lua                             | 4 +++-
  lua/keymap/completion.lua                         | 5 +++++
  lua/modules/configs/completion/servers/clangd.lua | 3 ++-
- 5 files changed, 15 insertions(+), 3 deletions(-)
+ 5 files changed, 16 insertions(+), 4 deletions(-)
 
 diff --git a/lua/core/mapping.lua b/lua/core/mapping.lua
 index ea53edc..79d364f 100644
@@ -43,10 +43,10 @@ index d857516..75003e6 100644
  		number = true,
  		previewheight = 12,
 diff --git a/lua/core/settings.lua b/lua/core/settings.lua
-index fd44daf..1660060 100644
+index fd44daf..f747669 100644
 --- a/lua/core/settings.lua
 +++ b/lua/core/settings.lua
-@@ -31,6 +31,8 @@ settings["format_modifications_only"] = false
+@@ -31,12 +31,14 @@ settings["format_modifications_only"] = false
  settings["format_disabled_dirs"] = {
  	-- Example
  	"~/format_disabled_dir",
@@ -55,6 +55,13 @@ index fd44daf..1660060 100644
  }
  
  -- Set it to false if diagnostics virtual text is annoying.
+ -- If disabled, you may browse lsp diagnostics using trouble.nvim (press `gt` to toggle it).
+ ---@type boolean
+-settings["diagnostics_virtual_text"] = true
++settings["diagnostics_virtual_text"] = false
+ 
+ -- Set it to one of the values below if you want to change the visible severity level of lsp diagnostics.
+ -- Priority: `Error` > `Warning` > `Information` > `Hint`.
 diff --git a/lua/keymap/completion.lua b/lua/keymap/completion.lua
 index 5472eba..01ad987 100644
 --- a/lua/keymap/completion.lua
