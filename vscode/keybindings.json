@@ -55,6 +55,16 @@
         "command": "workbench.action.focusActiveEditorGroup",
         "when": "searchViewletVisible && searchInputBoxFocus"
     },
+    {
+        "key": "ctrl+j",
+        "command": "workbench.action.quickOpenNavigateNext",
+        "when": "inQuickOpen"
+      },
+      {
+        "key": "ctrl+k",
+        "command": "workbench.action.quickOpenNavigatePrevious",
+        "when": "inQuickOpen"
+      }
 
 ]
 
