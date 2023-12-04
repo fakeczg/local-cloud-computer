@@ -6,13 +6,25 @@ icons = "awesome4"
 # 电池图标自定义
 [icons.overrides]
 bat = [
-    "| |",
-    "|¼|",
-    "|½|",
-    "|¾|",
-    "|X|",
+    "▒▒▒▒▒",
+    "█▒▒▒▒",
+    "██▒▒▒",
+    "███▒▒",
+    "████▒",
+    "█████",
 ]
-bat_charging = "|^|"
+bat_charging = "⚡██▒▒"
+
+[[block]]
+block = "battery"
+format = " $icon $percentage {$time |}"
+device = "BAT0"
+driver = "sysfs"
+interval = 10
+
+[[block]]
+block = "net"
+format = " $icon {$signal_strength $ssid $frequency|Wired connection} via $device "
 
 [[block]]
 block = "cpu"
