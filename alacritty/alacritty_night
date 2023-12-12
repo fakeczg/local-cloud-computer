@@ -1,0 +1,3 @@
+ln -s /data/bin/tools/alacritty/alacritty-catppuccin-frappe.yml ~/.config/alacritty/alacritty.yml -f
+/data/bin/tools/alacritty/set_fish_night.sh
+

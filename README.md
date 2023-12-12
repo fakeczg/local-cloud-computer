@@ -24,6 +24,8 @@
 
 # alacritty
 - `sudo ln -fs /data/bin/tools/alacritty/alacritty_tmux /usr/bin/`
+- `sudo ln -fs /data/bin/tools/alacritty/alacritty_night /usr/bin/`
+- `sudo ln -fs /data/bin/tools/alacritty/alacritty_light /usr/bin/`
 
 # fish
 - `ln -fs /data/bin/tools/fish/fish_config  ~/.config/fish/config.fish`
