@@ -1,0 +1,62 @@
+# https://github.com/jtheoof/dotfiles/blob/master/.tigrc
+# }}}
+# Colors {{{
+color cursor yellow blue
+color status white default
+color title-focus white blue
+color title-blur white default
+color date yellow default
+color author red default bold
+color main-head magenta default
+color main-tag magenta default
+color stat-staged green default
+color stat-unstaged red default
+color stat-untracked yellow default
+color tree.header white default
+color tree.directory cyan default
+# }}}
+
+# # Generic {{{
+# Vim-style keybindings for Tig
+#
+# To use these keybindings copy the file to your HOME directory and include
+# it from your ~/.tigrc file:
+#
+#       $ cp contrib/vim.tigrc ~/.tigrc.vim
+#       $ echo "source ~/.tigrc.vim" >> ~/.tigrc
+
+bind generic h scroll-left
+bind generic j move-down
+bind generic k move-up
+bind generic l scroll-right
+
+bind generic g  none
+bind generic gg move-first-line
+bind generic gj next
+bind generic gk previous
+bind generic gp parent
+bind generic gP back
+bind generic gn view-next
+
+bind generic G move-last-line
+
+bind generic <C-f> move-page-down
+bind generic <C-b> move-page-up
+
+bind generic v  none
+bind generic vm view-main
+bind generic vd view-diff
+bind generic vl view-log
+bind generic vt view-tree
+bind generic vx view-blob
+bind generic vb view-blame
+bind generic vr view-refs
+bind generic vs view-status
+bind generic vu view-stage
+bind generic vy view-stash
+bind generic vg view-grep
+bind generic vp view-pager
+bind generic vh view-help
+# }}}
+17,1          20%
+
