@@ -1,0 +1,175 @@
+
+#--------------------------- Global --------------------
+# 设置快捷键修饰符为Win，Mod1->Alt,Mod4->Win
+set $mod Mod4
+# 选择字体的名字，可通过fc-list | cut -d: -f2 | sort -u列出所有支持的字体
+font pango:Noto Sans CJK TC 8
+# modifier加上鼠标在浮窗模式可以按住modifier+鼠标进行拖动操作
+floating_modifier $mod
+
+# exec_always：这个指令用于在窗口管理器的配置文件中。exec_always 表示每次重新加载配置文件时都会执行该命令。
+# 这与 exec 指令不同，后者只在启动时执行一次。
+# --no-startup-id：这是一个选项，用来防止 i3wm 分配一个启动 ID 给这个命令。这通常用于减少窗口焦点问题或其他与启动相关的问题。
+# -d：这通常是一个命令行选项，用于指定以守护进程（daemon）的方式运行程序。这意味着 fcitx5 将在后台运行，而不会占用终端
+exec_always --no-startup-id fcitx5 -d
+exec --no-startup-id /opt/clash-for-windows-bin/cfw
+
+# 设置分辨率和缩放比
+# 笔记本
+#exec --no-startup-id  xrandr  --output eDP-1 --primary --mode 2880x1800 -r 60 --scale 0.7
+#exec --no-startup-id  xrandr  --output eDP-1 --primary --mode 2880x1800 -r 60
+# 公司台式电脑
+#exec --no-startup-id  xrandr  --output HDMI-2 --primary --mode 1920x1080 -r 60 --scale 1.0
+exec --no-startup-id  xrandr  --output HDMI-2 --primary --mode 1920x1080 -r 60 --scale 1.0
+exec --no-startup-id  xrandr  --output DP-2 --primary --mode 2560x1440 -r 120
+
+# 设置桌面的背景, feh: 这是一个轻量级的图像查看器和背景设置工具
+# 笔记本
+#exec_always --no-startup-id feh --bg-fill /usr/share/backgrounds/sway/windows/Wallpaper/ThemeC/img28.jpg
+#exec_always --no-startup-id feh --bg-fill /data/pictures/backgrounds/40.jpg
+# 公司台式电脑
+exec_always --no-startup-id feh --bg-fill /data/pictures/backgrounds/img28.jpg
+
+# comption用来实现终端透明
+exec_always --no-startup-id compton
+
+# 笔记本触摸板的控制
+# 1. get touch device name: xinput | grep -i touch
+# 2. get props by "device name": list-props "SYNACEF5:00 06CB:CEF5 Touchpad"
+# 3. set "device name" "props": xinput set-atom-prop "SYNACEF5:00 06CB:CEF5 Touchpad" "Natural Scrolling Enabled" 1
+#exec --no-startup-id xinput set-atom-prop "SYNACEF5:00 06CB:CEF5 Touchpad" "Natural Scrolling Enabled" 1
+
+#--------------------------- Key --------------------
+# 所有的按键前面都会有一个默认前提，按下mod，后面不再进行阐述
+# 回车打开alacritty终端
+bindsym $mod+Return exec alacritty
+
+# 分别用d/shift/w表示搜索桌面应用，应用以及窗口
+bindsym $mod+d exec "rofi run -show drun"
+bindsym $mod+shift+d exec "rofi run -show run"
+bindsym $mod+w exec "rofi run -show window"
+
+# 使用flameshot截屏快捷键
+bindsym F2 exec flameshot gui
+
+# i3lock: i3lock-color + i3lock-fancy, 锁屏快捷键
+bindsym $mod+ctrl+l exec i3lock-fancy
+
+# 干掉窗格
+bindsym $mod+q kill
+
+# 切换window
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# 移动window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# horizontal: 水平方向分割
+bindsym $mod+b split h
+# vertical：垂直方向分割
+bindsym $mod+v split v
+# 进行全屏模式
+bindsym $mod+f fullscreen toggle
+# 改变layout布局 (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+t layout tabbed
+bindsym $mod+e layout toggle split
+# 在window平铺/window浮窗切换
+bindsym $mod+Shift+space floating toggle
+# 在平铺和浮窗之间进行交点切换
+bindsym $mod+space focus mode_toggle
+
+# 重新加载配置文件
+bindsym $mod+Shift+r reload
+# 就地重启 i3（保留布局/会话，可用于升级 i3
+bindsym $mod+Shift+c restart
+# 退出 i3（注销 X 会话）
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+#--------------------------- Window --------------------
+# window特性
+# new_window none:
+# 这个配置项用于设置新打开的窗口的边框样式。none 意味着新打开的窗口将不会有可视化的边框。这有助于创建一个更简洁的桌面环境，特别是当你想最大化屏幕空间时。
+# new_float normal:
+# 这个配置项指定了新打开的浮动窗口（非平铺窗口）的边框样式。normal 意味着浮动窗口将有标准边框。浮动窗口通常是对话框、弹出窗口等，不遵循平铺布局。
+# hide_edge_borders both:
+# 此配置项用于在窗口贴近屏幕边缘时隐藏其边框。both 表示在水平和垂直贴近边缘时都会隐藏边框。这有助于减少视觉杂乱，尤其是在多显示器设置中。
+# default_border pixel 1:
+# 这个配置项设置了默认窗口边框的大小和样式。pixel 1 指的是窗口边框宽度为一个像素，这提供了一种极简的边框样式，有助于保持界面的整洁和一致性。
+new_window none
+new_float normal
+hide_edge_borders both
+default_border pixel 1
+
+# 移动window到对应的工作区
+set $ws1 "1   "
+set $ws2 "2   "
+set $ws3 "3   "
+set $ws4 "4   "
+set $ws5 "5   "
+set $ws6 "6   "
+set $ws7 "7   "
+set $ws8 "8   "
+set $ws9 "9   "
+set $ws10 "10   "
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+
+# 改比window的大小
+bindsym $mod+r mode "resize"
+mode "resize" {
+
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+# 启动 i3bar 并使用 i3status 作为其状态信息源
+bar {
+        #status_command i3status
+        status_command i3status-rs
+        height 18
+}

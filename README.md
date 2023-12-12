@@ -8,7 +8,9 @@
 ## i3status and i3status-rust
 - `ln -fs /data/bin/tools/i3/i3status-rust  ~/.config`
     - laptop:
-        - `ln -fs /data/bin/tools/i3/i3status-rust/laptop_config.toml  ~/.config/config.toml`
+        - `ln -fs /data/bin/tools/i3/i3status-rust/laptop_config.toml  ~/.config/i3status-rust/config.toml`
+    - desktop:
+        - `ln -fs /data/bin/tools/i3/i3status-rust/desktop_config.toml  ~/.config/i3status-rust/config.toml`
 
 - `ln -fs /data/bin/tools/i3/i3status  ~/.config`
 
