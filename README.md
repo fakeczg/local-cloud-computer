@@ -28,5 +28,10 @@
 # fish
 - `ln -fs /data/bin/tools/fish/fish_config  ~/.config/fish/config.fish`
 
+# sway
+- `ln -s /data/bin/tools/sway/waybar_style.css ~/.config/waybar/waybar_style.css`
+- `ln -s /data/bin/tools/sway/waybar_config ~/.config/waybar/waybar_config`
+- `ln -s /data/bin/tools/sway/sway_config ~/.config/sway/config`
+
 # md
 - `markdown一些常用的操作`

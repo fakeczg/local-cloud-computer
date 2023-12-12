@@ -1,0 +1,131 @@
+{
+    "layer": "top",
+        "position": "bottom",
+
+        "modules-left": ["custom/launcher","cpu","memory","network","custom/media","tray"],
+        "custom/launcher":{
+            "format": " ",
+            "on-click": "wofi --show=drun",
+            "on-click-right": "killall wofi"
+        },
+
+        "cpu": {
+            "interval": 15,
+            "format": " {usage}%",
+            "max-length": 10
+        },
+
+
+
+        "modules-center": ["sway/workspaces"],
+        "modules-right": ["custom/wallpaper","backlight","pulseaudio","clock", "battery","custom/power"],
+
+
+        "sway/workspaces": {
+            "disable-scroll": true,
+            "all-outputs": true,
+            "enable-bar-scroll": true,
+            "format": "{index} {icon}",
+            "persistent_workspaces": {
+                /* "7": [], 
+                   "10": " ",*/
+            },
+            "format-icons": {
+                "1": " ",
+                "2": " ",
+                "3": " ",
+                "4": " ",
+                "5": " ",
+                "6": " ",
+                "7": " ",
+                "8": " ",
+                "9": " ",
+                "10": " ",
+            },
+        },
+
+        "pulseaudio": {
+            "tooltip": false,
+            "scroll-step": 5,
+            "format": "{icon} {volume}%",
+            "format-muted": "{icon} {volume}%",
+            "on-click":"pavucontrol",
+            "on-click-right": "killall pavucontrol",
+            "format-icons": {
+                "headphone": "",
+                "default": ["", "", ""]
+            }
+        },
+
+        "network": {
+            "tooltip": false,
+            "format-wifi": "  {essid} ({signalStrength}%)", // Icon: wifi
+            "format-ethernet": "  {ifname}: {ipaddr}/{cidr}", // Icon: ethernet
+            "format-disconnected": "⚠  Disconnected",
+            "tooltip-format": "{ifname}: {ipaddr}",
+        },
+
+        "backlight": {
+            "tooltip": false,
+            "format": " {}%",
+            "interval":1,
+            "on-scroll-up": "light -A 5",
+            "on-scroll-down": "light -U 5"
+        },
+
+        "battery": {
+            "states": {
+                "good": 95,
+                "warning": 30,
+                "critical": 20
+            },
+            "format": "{icon}  {capacity}%",
+            "format-charging": " {capacity}%",
+            "format-plugged": " {capacity}%",
+            "format-alt": "{time} {icon}",
+            "format-icons": ["", "", "", "", ""]
+        },
+
+        "tray":{
+            "icon-size":18,
+            "spacing": 10
+        },
+
+
+        "clock": {
+            "locale": "en_US.UTF-8",
+            "timezone": "Asia/Shanghai",
+            "format": "{: %H:%M %p   %y/%m/%d}",
+        },
+
+        "memory": {
+            "interval": 30,
+            "format": " {}%",
+            "max-length": 10
+        },
+
+        "custom/media": {
+            "interval": 30,
+            "format": "{icon} {}",
+            "return-type": "json",
+            "max-length": 20,
+            "format-icons": {
+                "spotify": " ",
+                "default": " "
+            },
+            "escape": true,
+            "exec": "$HOME/.config/system_scripts/mediaplayer.py 2> /dev/null",
+            "on-click": "playerctl play-pause"
+        },
+
+        "custom/power":{
+            "format": " ",
+            "on-click": "bash ~/.config/rofi/leave/leave.sh",
+        },
+
+
+        "custom/wallpaper":{
+            "format":" ",
+            "on-click": "kitty -e ranger /data/pictures/grims"
+        }
+}
