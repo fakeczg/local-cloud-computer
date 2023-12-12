@@ -1,0 +1,83 @@
+# Commands to run in interactive sessions can go here
+#if status is-interactive
+# 1. proxy
+export https_proxy=http://127.0.0.1:7890
+export http_proxy=http://127.0.0.1:7890
+export all_proxy=socks5:http://127.0.0.1:7890
+#export https_proxy=http://172.20.124.86:7890
+#export http_proxy=http://172.20.124.86:7890
+#export all_proxy=socks5:http://172.20.124.86:7890
+# 2. nvim
+alias nv nvim
+# 3. EDITOR
+export EDITOR='nvim'
+# 4. neofetch
+alias nf neofetch
+# 5. fzf(rg) ingore hiddle
+export FZF_DEFAULT_COMMAND='rg --files --hidden'
+# 6. ranger
+alias re  ranger
+#7. bear and cland make
+#alias make "bear -- make CC=clang"
+alias make "bear -- make"
+# 8. term export
+export TERM=xterm-256color
+# 9. git
+# git diff support mouse scrolling
+#export LESS='-R --mouse --wheel-lines=3'
+alias gs "git status"
+alias gd "git diff"
+alias gb "git branch -a"
+
+#  imwhell
+#/usr/bin/imwheel
+# 8. Start Wayland at login
+if status is-login
+	set TTY (tty)
+	if test -z "$DISPLAY"; and test $TTY = "/dev/tty2"
+		export LANG=zh_CN.UTF-8
+		export XDG_SESSION_TYPE=wayland
+		export MOZ_ENABLE_WAYLAND=1 MOZ_WEBRENDER=1 
+		#foxitreader need QT_QPA_PLATFORM=xcb
+		#export QT_QPA_PLATFORM=xcb
+		export QT_QPA_PLATFORM=wayland
+		export QT_QPA_PLATFORMTHEME=qt5ct
+		export CLUTTER_BACKEND=wayland
+		export SDL_VIDEODRIVER=wayland
+		export INPUT_METHOD=fcitx5
+		export GTK_IM_MODULE=fcitx5
+		export XMODIFIERS=@im=fcitx5
+		export QT_IM_MODULE=fcitx5
+		export _JAVA_AWT_WM_NONREPARENTING=1
+		export XDG_CURRENT_DESKTOP=sway
+		export XDG_SESSION_DESKTOP=sway
+		export GRIM_DEFAULT_DIR=/data/pictures/grims
+		#export WLR_RENDERER=vulkan
+		#LIBVA_DRIVER_NAME=iHD
+		exec sway > /dev/null 2>&1
+	end
+	if test -z "$DISPLAY"; and test $TTY = "/dev/tty1"
+		export LANG=zh_CN.UTF-8
+		export XDG_SESSION_TYPE=X11
+		export DEEPIN_WINE_SCALE=0.8
+		#export MOZ_ENABLE_WAYLAND=1 MOZ_WEBRENDER=1 
+		#foxitreader need QT_QPA_PLATFORM=xcb
+		export QT_QPA_PLATFORM=xcb
+		export QT_QPA_PLATFORMTHEME=qt5ct
+		export CLUTTER_BACKEND=x11
+		export SDL_VIDEODRIVER=x11
+		export INPUT_METHOD=fcitx5
+		export GTK_IM_MODULE=fcitx5
+		export XMODIFIERS=@im=fcitx5
+		export QT_IM_MODULE=fcitx5
+		export _JAVA_AWT_WM_NONREPARENTING=1
+		export XDG_CURRENT_DESKTOP=i3
+		export XDG_SESSION_DESKTOP=i3
+		#export GRIM_DEFAULT_DIR=/data/pictures/grims
+		##export WLR_RENDERER=vulkan
+		##LIBVA_DRIVER_NAME=iHD
+		exec startx > /dev/null 2>&1
+	end
+end
+#end
+#

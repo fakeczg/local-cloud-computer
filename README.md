@@ -25,5 +25,8 @@
 # alacritty
 - `sudo ln -fs /data/bin/tools/alacritty/alacritty_tmux /usr/bin/`
 
+# fish
+- `ln -fs /data/bin/tools/fish/fish_config  ~/.config/fish/config.fish`
+
 # md
 - `markdown一些常用的操作`
