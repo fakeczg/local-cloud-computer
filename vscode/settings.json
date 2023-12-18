@@ -185,7 +185,7 @@
 "cmake.configureOnOpen": true,
 "winopacity.opacity": 50,
 "C_Cpp.inactiveRegionOpacity": 0.55,
-"editor.fontSize": 12,
+"editor.fontSize": 13,
 "scm.inputFontSize": 12,
 "terminal.integrated.fontSize": 12,
 "markdown.preview.fontSize": 12,
