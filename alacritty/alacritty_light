@@ -1,4 +1,4 @@
-ln -s /data/bin/tools/alacritty/alacritty-catppuccin-latte.yml ~/.config/alacritty/alacritty.yml -f
+ln -s /data/bin/tools/alacritty/alacritty-catppuccin-latte.toml ~/.config/alacritty/alacritty.toml -f
 /data/bin/tools/alacritty/set_fish_light.sh
 
 
