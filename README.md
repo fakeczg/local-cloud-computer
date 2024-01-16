@@ -33,6 +33,9 @@
 # tig
 - `ln  -fs /data/bin/tools/tig/tigrc  ~/.tigrc`
 
+# ranger
+- `sudo ln -fs /data/bin/tools/ranger  ~/.config/`
+
 # sway
 - `ln -s /data/bin/tools/sway/waybar_style.css ~/.config/waybar/waybar_style.css`
 - `ln -s /data/bin/tools/sway/waybar_config ~/.config/waybar/waybar_config`
