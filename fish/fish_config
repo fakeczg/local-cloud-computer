@@ -1,9 +1,14 @@
 # Commands to run in interactive sessions can go here
 #if status is-interactive
 # 1. proxy
+# clash for window
 export https_proxy=http://127.0.0.1:7890
 export http_proxy=http://127.0.0.1:7890
 export all_proxy=socks5:http://127.0.0.1:7890
+# archlinux use leensa by wine
+export https_proxy=http://127.0.0.1:23457
+export http_proxy=http://127.0.0.1:23457
+export all_proxy=socks5:http://127.0.0.1:23457
 #export https_proxy=http://172.20.124.86:7890
 #export http_proxy=http://172.20.124.86:7890
 #export all_proxy=socks5:http://172.20.124.86:7890

@@ -28,7 +28,8 @@ exec --no-startup-id  xrandr  --output DP-2 --primary --mode 2560x1440 -r 120
 #exec_always --no-startup-id feh --bg-fill /usr/share/backgrounds/sway/windows/Wallpaper/ThemeC/img28.jpg
 #exec_always --no-startup-id feh --bg-fill /data/pictures/backgrounds/40.jpg
 # 公司台式电脑
-exec_always --no-startup-id feh --bg-fill /data/bin/tools/pictures/backgrounds/sun28.jpg
+#exec_always --no-startup-id feh --bg-fill /data/bin/tools/pictures/backgrounds/sun28.jpg
+exec_always --no-startup-id feh --bg-fill /data/bin/tools/pictures/backgrounds/1.jpg
 
 # comption用来实现终端透明
 exec_always --no-startup-id compton
