@@ -64,7 +64,12 @@
         "key": "ctrl+k",
         "command": "workbench.action.quickOpenNavigatePrevious",
         "when": "inQuickOpen"
-      }
+    },
+    {
+        "key": "ctrl+z",
+        "command": "workbench.action.navigateBack",
+        "when": "canNavigateBack"
+    }
 
 ]
 

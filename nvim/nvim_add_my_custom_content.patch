@@ -1,15 +1,15 @@
-From 9bdd313999efb8ecc547a61faeaee2c5320d9f1b Mon Sep 17 00:00:00 2001
+From fa9c38020a7ecde476be002b407c7d4751d22576 Mon Sep 17 00:00:00 2001
 From: fovt <chenzigui1762@phytium.com.cn>
-Date: Fri, 17 Nov 2023 10:43:11 +0800
+Date: Sun, 18 Feb 2024 09:08:21 +0800
 Subject: [PATCH] add my custom content
 
 ---
  lua/core/mapping.lua                              | 3 +++
  lua/core/options.lua                              | 5 +++--
- lua/core/settings.lua                             | 4 +++-
- lua/keymap/completion.lua                         | 5 +++++
+ lua/core/settings.lua                             | 6 ++++--
+ lua/keymap/completion.lua                         | 8 +++++++-
  lua/modules/configs/completion/servers/clangd.lua | 3 ++-
- 5 files changed, 16 insertions(+), 4 deletions(-)
+ 5 files changed, 19 insertions(+), 6 deletions(-)
 
 diff --git a/lua/core/mapping.lua b/lua/core/mapping.lua
 index ea53edc..79d364f 100644
@@ -43,7 +43,7 @@ index d857516..75003e6 100644
  		number = true,
  		previewheight = 12,
 diff --git a/lua/core/settings.lua b/lua/core/settings.lua
-index fd44daf..f747669 100644
+index 5a2890c..955ce75 100644
 --- a/lua/core/settings.lua
 +++ b/lua/core/settings.lua
 @@ -31,12 +31,14 @@ settings["format_modifications_only"] = false
@@ -62,8 +62,17 @@ index fd44daf..f747669 100644
  
  -- Set it to one of the values below if you want to change the visible severity level of lsp diagnostics.
  -- Priority: `Error` > `Warning` > `Information` > `Hint`.
+@@ -64,7 +66,7 @@ settings["palette_overwrite"] = {}
+ -- Set the colorscheme to use here.
+ -- Available values are: `catppuccin`, `catppuccin-latte`, `catppucin-mocha`, `catppuccin-frappe`, `catppuccin-macchiato`.
+ ---@type string
+-settings["colorscheme"] = "catppuccin"
++settings["colorscheme"] = "catppuccin-latte"
+ 
+ -- Set it to true if your terminal has transparent background.
+ ---@type boolean
 diff --git a/lua/keymap/completion.lua b/lua/keymap/completion.lua
-index 5472eba..01ad987 100644
+index 23e81b2..a5f7ca8 100644
 --- a/lua/keymap/completion.lua
 +++ b/lua/keymap/completion.lua
 @@ -1,6 +1,7 @@
@@ -74,17 +83,20 @@ index 5472eba..01ad987 100644
  local map_callback = bind.map_callback
  
  local plug_map = {
-@@ -50,6 +51,10 @@ function mapping.lsp(buf)
+@@ -50,7 +51,12 @@ function mapping.lsp(buf)
  		["n|gd"] = map_cr("Glance definitions"):with_silent():with_buffer(buf):with_desc("lsp: Preview definition"),
  		["n|gD"] = map_cr("Lspsaga goto_definition"):with_silent():with_buffer(buf):with_desc("lsp: Goto definition"),
  		["n|gh"] = map_cr("Glance references"):with_silent():with_buffer(buf):with_desc("lsp: Show reference"),
+-		["n|gci"] = map_cr("Lspsaga incoming_calls")
++		["n|gci"] = map_cr("Lspsaga incoming_calls"),
 +		["n|gE"] = map_cu("<Cmd> lua vim.lsp.buf.references()<CR>")
 +			:with_noremap()
 +			:with_silent()
 +			:with_desc("lsp: Preview definition on quicklist"),
- 		["n|<leader>ci"] = map_cr("Lspsaga incoming_calls")
++		["n|<leader>ci"] = map_cr("Lspsaga incoming_calls")
  			:with_silent()
  			:with_buffer(buf)
+ 			:with_desc("lsp: Show incoming calls"),
 diff --git a/lua/modules/configs/completion/servers/clangd.lua b/lua/modules/configs/completion/servers/clangd.lua
 index 7661177..326adb8 100644
 --- a/lua/modules/configs/completion/servers/clangd.lua
@@ -100,5 +112,5 @@ index 7661177..326adb8 100644
  			"--all-scopes-completion",
  			"--completion-style=detailed",
 -- 
-2.42.1
+2.43.2
 

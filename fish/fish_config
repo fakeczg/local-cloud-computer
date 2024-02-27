@@ -24,7 +24,7 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden'
 alias re  ranger
 #7. bear and cland make
 #alias make "bear -- make CC=clang"
-alias make "bear -- make"
+#alias make "bear -- make"
 # 8. term export
 export TERM=xterm-256color
 # 9. git
