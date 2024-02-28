@@ -60,3 +60,26 @@ class my_edit(Command):
         # This is a generic tab-completion function that iterates through the
         # content of the current directory.
         return self._tab_directory_content()
+
+# 定义code命令打开
+class code(Command):
+    """:code <path>
+
+    Open a file or directory in Visual Studio Code.
+    """
+
+    def execute(self):
+        # 如果提供了参数，则使用该参数；否则，使用当前选中的文件或文件夹
+        target_path = self.rest(1) if self.arg(1) else self.fm.thisfile.path
+
+        # 检查路径是否存在
+        if not os.path.exists(target_path):
+            self.fm.notify("Path does not exist: " + target_path, bad=True)
+            return
+
+        # 执行命令打开 Visual Studio Code
+        self.fm.execute_command('code ' + target_path)
+
+    def tab(self, tabnum):
+        # 提供文件和文件夹的自动补全
+        return self._tab_directory_content()
