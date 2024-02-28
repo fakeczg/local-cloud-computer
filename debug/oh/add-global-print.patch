@@ -1,0 +1,48 @@
+From 0d35b1df7bd9d880826af5cef5cc3a9da31d2684 Mon Sep 17 00:00:00 2001
+From: fovt <chenzigui@phytium1762.com.cn>
+Date: Fri, 26 May 2023 16:39:44 +0800
+Subject: [PATCH] add global print
+
+Signed-off-by: fovt <chenzigui@phytium1762.com.cn>
+Change-Id: Ifcc1306302a7e0ffde96dd30e0be7358026c7f55
+---
+ .../native/innerkits/include/hilog/log_c.h       | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/interfaces/native/innerkits/include/hilog/log_c.h b/interfaces/native/innerkits/include/hilog/log_c.h
+index 2649f33..05dc6aa 100644
+--- a/interfaces/native/innerkits/include/hilog/log_c.h
++++ b/interfaces/native/innerkits/include/hilog/log_c.h
+@@ -18,6 +18,9 @@
+ 
+ #include <stdarg.h>
+ #include <stdbool.h>
++#include <string.h>
++#include <stdint.h>
++#include <stdio.h>
+ 
+ #ifdef __cplusplus
+ extern "C" {
+@@ -70,6 +73,19 @@ int HiLogPrint(LogType type, LogLevel level, unsigned int domain, const char *ta
+ 
+ #define HILOG_FATAL(type, ...) ((void)HiLogPrint((type), LOG_FATAL, LOG_DOMAIN, LOG_TAG, __VA_ARGS__))
+ 
++// FILE是绝对路径，改成相对路径FILENAME
++#define __FOVT_FILENAME__    (strrchr("/" __FILE__, '/') + 1)
++#ifndef fovt_p
++#define fovt_p(format, ...)                                 \
++    do {                                                          \
++        HILOG_ERROR(LOG_CORE,                                     \
++            "\033[0;30;43m"                                       \
++            "[%{public}s%{public}s@%{public}s:%{public}d] " format "\033[m" \
++            "\n",                                                 \
++            "fovt->",__FUNCTION__, __FOVT_FILENAME__, __LINE__, ##__VA_ARGS__); \
++    } while (0)
++#endif
++
+ bool HiLogIsLoggable(unsigned int domain, const char *tag, LogLevel level);
+ 
+ #ifdef __cplusplus
+-- 
+2.25.1
+

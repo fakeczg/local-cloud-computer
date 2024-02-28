@@ -1,0 +1,109 @@
+# 1. D2000系列
+phytium-oh-d2000-uboot:
+# log 7
+setenv bootargs console=ttyAMA1,115200 earlycon=p1011,0x28001000 root=/dev/ram0 elevator=deadline rootwait rw loglevel=7 hardware=d2000 rootfstype=ext4 initrd=0x93000000,90M
+# log 3
+setenv bootargs console=ttyAMA1,115200 earlycon=p1011,0x28001000 root=/dev/ram0 elevator=deadline rootwait rw loglevel=3 hardware=d2000 rootfstype=ext4 initrd=0x93000000,90M
+setenv bootcmd "ext4load scsi 0:1 0x90100000 pd2008-devboard-dsk.dtb;ext4load scsi 0:1 0x90200000 Image;ext4load scsi 0:1 0x93000000 ramdisk.img;booti 0x90200000 - 0x90100000";boot
+setenv bootcmd "ext4load scsi 0:1 0x90100000 d2000-devboard-dsk.dtb;ext4load scsi 0:1 0x90200000 Image;ext4load scsi 0:1 0x93000000 ramdisk.img;booti 0x90200000 - 0x90100000";boot
+service_control stop render_service
+service_control start render_service
+hilog -w start -t kmsg -f "kmsg" -l 10M -m zlib -n 2
+hilog -w start -f "hilog" -l 200M -m zlib -n 1000
+
+
+skh-oh-d2000-uboot:(hardware=ftd2000, OH第二级启动分区信息加载fstab.ftd2000)
+setenv bootargs console=ttyAMA1,115200 earlycon=p1011,0x28001000 root=/dev/ram0 elevator=deadline rootwait rw loglevel=6 hardware=ftd2000 rootfstype=ext4 initrd=0x94000000,90M
+setenv bootcmd 'ext4load scsi 1:1 0x90100000 d2000-devboard-dsk.dtb;ext4load scsi 1:1 0x90200000 Image;ext4load scsi 1:1 0x94000000 ramdisk.img;booti 0x90200000 - 0x90100000'
+
+skh-oh4.0:
+setenv bootargs console=ttyAMA1,115200 earlycon=p1011,0x28001000 root=/dev/ram0 elevator=deadline rootwait rw loglevel=3 hardware=d2000 rootfstype=ext4 initrd=0x94000000,90M cma=1024M phytium-dc-drm.x100_dc_sysmem
+setenv bootcmd 'ext4load scsi 1:1 0x90100000 pd2008-devboard-dsk.dtb;ext4load scsi 1:1 0x90200000 Image;ext4load scsi 1:1 0x94000000 ramdisk.img;booti 0x90200000 - 0x90100000'
+
+setenv bootargs console=ttyAMA1,115200 earlycon=p1011,0x28001000 root=/dev/ram0 elevator=deadline rootwait rw loglevel=3 hardware=d2000 rootfstype=ext4 initrd=0x94000000,90M
+setenv bootcmd 'ext4load scsi 1:1 0x90100000 pd2008-devboard-dsk.dtb;ext4load scsi 1:1 0x90200000 Image;ext4load scsi 1:1 0x94000000 ramdisk.img;booti 0x90200000 - 0x90100000'
+
+# 2. E2000系列:
+phytium-android-e2000-uboot:
+setenv bootargs console=ttyAMA1,115200 earlycon=p1011,0x2800d000 root=/dev/ram0 elevator=deadline rootwait rw loglevel=7 androidboot.hardware=e2000 androidboot.selinux=permissive initrd=0x93000000,90M
+setenv bootcmd "ext4load scsi 0:1 0x90100000 e2000q-test-a-ddr4.dtb;ext4load scsi 0:1 0x90200000 Image;ext4load scsi 0:1 0x93000000 initramfs.img;booti 0x90200000 - 0x90100000";boot
+setenv bootcmd "ext4load scsi 0:1 0x90100000 e2000q-demo-board.dtb;ext4load scsi 0:1 0x90200000 Image;ext4load scsi 0:1 0x93000000 initramfs.img;booti 0x90200000 - 0x90100000";boot
+
+phytium-oh-e2000-uboot:
+setenv bootargs console=ttyAMA1,115200 earlycon=p1011,0x2800d000 root=/dev/ram0 elevator=deadline rootwait rw loglevel=6 hardware=e2000 rootfstype=ext4 initrd=0x93000000,90M
+setenv bootcmd "ext4load scsi 0:1 0x90100000 e2000q-demo-board.dtb;ext4load scsi 0:1 0x90200000 Image;ext4load scsi 0:1 0x93000000 ramdisk.img;booti 0x90200000 - 0x90100000";boot
+
+# 3. 核外调试系列
+## 3.1 网络和hdc配置
+ifconfig eth0 10.31.90.121 netmask 255.255.252.0
+route add default gw 10.31.90.254
+# 设置hdc参数，新镜像或者新板子第一次需要配置
+param set persist.hdc.mode tcp
+param set persist.hdc.port 9527
+hdcd &
+# 查询hdc参数
+param get | grep hdc
+# 启动hdcd服务
+hdcd &
+# pc set
+hdc  tconn 10.31.90.121:9527
+hdc shell
+l
+## 3.2 hilog
+hilog -w start -l 30M -n 20
+hilog -w stop
+hilog -G 20M
+hilog -b W
+hilog -T EGL-MAIN,IMGSRV &
+hilog -b D
+hilog -L D  | grep -i "set the fence"
+hilog -T DISP_PHYTIUM
+param set hilog.loggable.global D
+param set persist.khsyslog.level D
+param set persist.khsyslog.level I
+
+hdc shell hilog -w start -t kmsg -f "kmsg" -l 10M -m zlib -n 2
+hdc shell hilog -w start -f "hilog" -l 200M -m zlib -n 1000
+hilog -w start -t kmsg -f "kmsg" -l 10M -m zlib -n 2
+hilog -w start -f "hilog" -l 200M -m zlib -n 1000
+hdc shell "cd /data/log; tar -czf hilog.tar.gz faultlog hilog"
+cd /data/log; tar -czf hilog.tar.gz  hilog
+hdc file recv /data/log/hilog.tar.gz
+
+## 3.3 debug and test
+hidumper -s RenderService -a allInfo
+hidumper -s RenderService -a allInfo | grep -i active
+wukong exec -i 1000 -T 10080
+wukong exec -i 100 -T 10080
+wukong exec -i 1 -T 10080
+mount -o remount,rw  /
+service_control stop render_service
+service_control stop  composer_host
+service_control start render_service
+/data/modetest -M dc -s 53@37:1920x1080 -v
+/data/modetest -M dc -s 53@37:1920x1080 -a
+/data/modetest -M dc -p
+/data/modetest -M dc -a -s 53@37:1920x1080 -P 31@37:1920x1080 -Ftiles
+/data/modetest -M dc -s 53@37:1920x1080 
+
+param set rosen.dump.rendernode 2
+param set rosen.dump.surfacebuffer 2
+
+## 3.4 compiler and build
+./build.sh --product-name d2000 --ccache --target-cpu arm64 --jobs=888
+./build.sh --product-name d2000 --ccache --target-cpu arm64 --jobs=888 --build-target=atomic_test
+
+# 4. 核内调试系列
+echo 0 > /proc/sys/kernel/printk
+cat  /sys/kernel/debug/dri/0/mem_state
+watch  -n1 cat  /sys/kernel/debug/dri/0/mem_state
+echo 0x14 > /sys/module/drm/parameters/debug
+echo 0x114 > /sys/module/drm/parameters/debug
+cat /sys/kernel/debug/pvr/driver_stats
+watch -n 0.8  "cat /sys/kernel/debug/pvr/driver_stats"
+watch -n 0.8  "free -h"
+----- local
+set -x PATH $PATH /data/bin/toolchain/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu/bin; set -x ARCH arm64 ; set -x CROSS_COMPILE aarch64-linux-gnu-; set -x CC aarch64-linux-gnu-gcc
+make d2000_defconfig
+bear -- make -j500
+

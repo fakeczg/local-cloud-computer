@@ -1,0 +1,113 @@
+From b3aacbdb6338e3940272b199e9ea52a31146b05b Mon Sep 17 00:00:00 2001
+From: fovt <chenzigui@phytium1762.com.cn>
+Date: Thu, 1 Jun 2023 09:07:32 +0800
+Subject: [PATCH] add modetest app
+
+Signed-off-by: fovt <chenzigui@phytium1762.com.cn>
+Change-Id: I103f4c60c1c2cf7b1f859d94e87ef2d257cb8011
+---
+ BUILD.gn                |  4 ++++
+ tests/modetest/BUILD.gn | 38 ++++++++++++++++++++++++++++++++++++++
+ tests/util/BUILD.gn     | 29 +++++++++++++++++++++++++++++
+ 3 files changed, 71 insertions(+)
+ create mode 100644 tests/modetest/BUILD.gn
+ create mode 100644 tests/util/BUILD.gn
+
+diff --git a/BUILD.gn b/BUILD.gn
+index 7859213..50509d9 100644
+--- a/BUILD.gn
++++ b/BUILD.gn
+@@ -8,6 +8,10 @@ config("libdrm_config") {
+ 
+   cflags = [
+     "-Wno-deprecated-declarations",
++        "-Wno-unused-variable",
++        "-Wno-sign-compare",
++        "-Wno-pointer-sign",
++        "-Wno-deprecated-declarations",
+     "-Wno-enum-conversion",
+     "-DMAJOR_IN_SYSMACROS=1",
+   ]
+diff --git a/tests/modetest/BUILD.gn b/tests/modetest/BUILD.gn
+new file mode 100644
+index 0000000..a7e2103
+--- /dev/null
++++ b/tests/modetest/BUILD.gn
+@@ -0,0 +1,38 @@
++import("//build/ohos.gni")
++
++ohos_executable("modetest"){
++    sources = [
++        "buffers.c",
++        "cursor.c",
++        "modetest.c",
++    ]
++
++
++    cflags = [
++        "-Wno-pointer-arith",
++    ]
++
++    include_dirs = [
++        "../",
++        ".",
++    ]
++
++    configs = [ "//third_party/libdrm:libdrm_config" ]
++
++    public_configs = [ "//third_party/libdrm:libdrm_public_config" ]
++
++    deps = [
++        "//third_party/libdrm:libdrm",
++        "//third_party/libdrm/tests/util/:util",
++    ]
++
++    public_deps = []
++
++    install_images = [
++        "system",
++        "updater",
++    ]
++    part_name = "graphic_standard"
++    subsystem_name = "graphic"
++
++}
+\ No newline at end of file
+diff --git a/tests/util/BUILD.gn b/tests/util/BUILD.gn
+new file mode 100644
+index 0000000..368c484
+--- /dev/null
++++ b/tests/util/BUILD.gn
+@@ -0,0 +1,29 @@
++import("//build/ohos.gni")
++
++ohos_static_library("util"){
++    sources = [
++        "format.c",
++        "kms.c",
++        "pattern.c",
++    ]
++
++
++
++    include_dirs = [
++        "../",
++        "."
++    ]
++
++    configs = [ "//third_party/libdrm:libdrm_config" ]
++
++    public_configs = [ "//third_party/libdrm:libdrm_public_config" ]
++    cflags = [
++        "-Wno-unused-variable",
++        "-Wno-sign-compare",
++    ]
++
++    deps =[
++        "//third_party/libdrm:libdrm",
++    ]
++    public_deps = []
++}
+-- 
+2.25.1
+

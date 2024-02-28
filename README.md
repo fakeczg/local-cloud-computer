@@ -41,5 +41,7 @@
 - `ln -s /data/bin/tools/sway/waybar_config ~/.config/waybar/waybar_config`
 - `ln -s /data/bin/tools/sway/sway_config ~/.config/sway/config`
 
+# debug
+- `一些调试常用的内容`
 # md
 - `markdown一些常用的操作`

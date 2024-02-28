@@ -1,0 +1,342 @@
+From 2fbad5f9c7bacfddf62ca4c3891f5b7f7af15b2e Mon Sep 17 00:00:00 2001
+From: fovt <chenzigui@phytium1762.com.cn>
+Date: Mon, 5 Jun 2023 19:03:25 +0800
+Subject: [PATCH] add dump surfacebuffer and surfacenode
+
+Signed-off-by: fovt <chenzigui@phytium1762.com.cn>
+Change-Id: Iaee1bc95e21583169f92535d4ac8a57c309146cc
+---
+ rosen/modules/composer/BUILD.gn               |   9 ++
+ .../hdi_backend/include/hdi_backend_util.h    |  42 +++++
+ .../composer/hdi_backend/src/hdi_backend.cpp  |   7 +-
+ .../hdi_backend/src/hdi_backend_util.cpp      | 153 ++++++++++++++++++
+ rosen/modules/render_service/BUILD.gn         |   4 +
+ .../pipeline/rs_render_service_visitor.cpp    |   3 +-
+ 6 files changed, 215 insertions(+), 3 deletions(-)
+ create mode 100644 rosen/modules/composer/hdi_backend/include/hdi_backend_util.h
+ create mode 100644 rosen/modules/composer/hdi_backend/src/hdi_backend_util.cpp
+
+diff --git a/rosen/modules/composer/BUILD.gn b/rosen/modules/composer/BUILD.gn
+index 88f3b050..5d139682 100644
+--- a/rosen/modules/composer/BUILD.gn
++++ b/rosen/modules/composer/BUILD.gn
+@@ -45,12 +45,14 @@ ohos_shared_library("libcomposer") {
+     "hdi_backend/src/hdi_layer.cpp",
+     "hdi_backend/src/hdi_output.cpp",
+     "hdi_backend/src/hdi_screen.cpp",
++    "hdi_backend/src/hdi_backend_util.cpp",
+   ]
+ 
+   include_dirs = [
+     "$graphic_2d_root/rosen/modules/render_frame_trace/include",
+     "//foundation/graphic/graphic_2d/rosen/modules/render_service_base/src",
+     "//foundation/graphic/graphic_2d/utils/log",
++    "//third_party/libpng",
+   ]
+ 
+   configs = [ ":composer_config" ]
+@@ -77,10 +79,17 @@ ohos_shared_library("libcomposer") {
+     "//foundation/graphic/graphic_2d/utils:buffer_handle",
+     "//foundation/graphic/graphic_2d/utils:scoped_bytrace",
+     "//foundation/graphic/graphic_2d/utils:sync_fence",
++    "//third_party/libpng:libpng",
+   ]
+ 
+   external_deps = [ "drivers_interface_display:display_device_client" ]
+ 
++if (is_standard_system) {
++  external_deps += [ "init:libbegetutil" ]
++} else {
++  external_deps += [ "startup:syspara" ]
++}
++
+   part_name = "graphic_standard"
+   subsystem_name = "graphic"
+ }
+diff --git a/rosen/modules/composer/hdi_backend/include/hdi_backend_util.h b/rosen/modules/composer/hdi_backend/include/hdi_backend_util.h
+new file mode 100644
+index 00000000..8a291ff7
+--- /dev/null
++++ b/rosen/modules/composer/hdi_backend/include/hdi_backend_util.h
+@@ -0,0 +1,42 @@
++#ifndef HDI_BACKEND_UTIL_H
++#define HDI_BACKEND_UTIL_H
++
++
++#include <vector>
++#include <iostream>
++#include <string>
++#include "surface_buffer.h"
++#include <unordered_map>
++#include <refbase.h>
++#include <parameter.h>
++#include <parameters.h>
++#include "pipeline/rs_surface_render_node.h"
++namespace OHOS {
++namespace Rosen {
++
++using WriteToPngParam = struct {
++    uint32_t width;
++    uint32_t height;
++    uint32_t stride;
++    uint32_t bitDepth;
++    const uint8_t *data;
++};
++
++
++class RSBaseRenderUtil {
++public:
++    static const int ALLSURFACES = 2;
++    static bool WriteHdiOutToPng(const sptr<SurfaceBuffer> &buffer, const BufferHandle *bufferHandle);
++    static bool WriteSurfaceBufferToPng(const sptr<SurfaceBuffer> &buffer);
++    static bool WriteSurfaceRenderNodeToPng(const RSSurfaceRenderNode& node);
++
++private:
++    static bool WriteToPng(const std::string &filename, const WriteToPngParam &param);
++    
++};
++
++
++} // namespace Rosen
++} // namespace OHOS
++
++#endif // HDI_BACKEND_UTIL_H
+\ No newline at end of file
+diff --git a/rosen/modules/composer/hdi_backend/src/hdi_backend.cpp b/rosen/modules/composer/hdi_backend/src/hdi_backend.cpp
+index 77590a11..1e525929 100644
+--- a/rosen/modules/composer/hdi_backend/src/hdi_backend.cpp
++++ b/rosen/modules/composer/hdi_backend/src/hdi_backend.cpp
+@@ -17,6 +17,7 @@
+ 
+ #include <scoped_bytrace.h>
+ #include "surface_buffer.h"
++#include "hdi_backend_util.h"
+ 
+ namespace OHOS {
+ namespace Rosen {
+@@ -276,8 +277,10 @@ int32_t HdiBackend::SetScreenClientInfo(const FrameBufferEntry &fbEntry, const O
+         return -1;
+     }
+ 
+-    int ret = device_->SetScreenClientBuffer(output->GetScreenId(),
+-        fbEntry.buffer->GetBufferHandle(), fbEntry.acquireFence);
++    fovt_p();
++    RSBaseRenderUtil::WriteSurfaceBufferToPng(fbEntry.buffer);
++    int ret =
++        device_->SetScreenClientBuffer(output->GetScreenId(), fbEntry.buffer->GetBufferHandle(), fbEntry.acquireFence);
+     if (ret != DISPLAY_SUCCESS) {
+         HLOGE("SetScreenClientBuffer failed, ret is %{public}d", ret);
+         return ret;
+diff --git a/rosen/modules/composer/hdi_backend/src/hdi_backend_util.cpp b/rosen/modules/composer/hdi_backend/src/hdi_backend_util.cpp
+new file mode 100644
+index 00000000..86f88482
+--- /dev/null
++++ b/rosen/modules/composer/hdi_backend/src/hdi_backend_util.cpp
+@@ -0,0 +1,153 @@
++#include "hdi_backend_util.h"
++#include "png.h"
++#include "hdi_log.h"
++#include <sys/time.h>
++
++
++namespace OHOS {
++namespace Rosen {
++
++bool RSBaseRenderUtil::WriteToPng(const std::string &filename, const WriteToPngParam &param)
++{
++    HLOGI("RSBaseRenderUtil::WriteToPng filename = %s{public}", filename.c_str());
++    png_structp pngStruct = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
++    if (pngStruct == nullptr) {
++        return false;
++    }
++    png_infop pngInfo = png_create_info_struct(pngStruct);
++    if (pngInfo == nullptr) {
++        png_destroy_write_struct(&pngStruct, nullptr);
++        return false;
++    }
++
++    FILE *fp = fopen(filename.c_str(), "wb");
++    if (fp == nullptr) {
++        png_destroy_write_struct(&pngStruct, &pngInfo);
++        return false;
++    }
++    png_init_io(pngStruct, fp);
++
++    // set png header
++    png_set_IHDR(pngStruct, pngInfo,
++        param.width, param.height,
++        param.bitDepth,
++        PNG_COLOR_TYPE_RGBA,
++        PNG_INTERLACE_NONE,
++        PNG_COMPRESSION_TYPE_BASE,
++        PNG_FILTER_TYPE_BASE);
++    png_set_packing(pngStruct); // set packing info
++    png_write_info(pngStruct, pngInfo); // write to header
++
++    for (uint32_t i = 0; i < param.height; i++) {
++        png_write_row(pngStruct, param.data + (i * param.stride));
++    }
++    png_write_end(pngStruct, pngInfo);
++
++    // free
++    png_destroy_write_struct(&pngStruct, &pngInfo);
++    int ret = fclose(fp);
++    return ret == 0;
++}
++
++
++bool RSBaseRenderUtil::WriteHdiOutToPng(const sptr<SurfaceBuffer> &buffer, const BufferHandle *bufferHandle)
++{
++    if((std::atoi((system::GetParameter("rosen.dump.surfacebuffer", "0")).c_str()) == ALLSURFACES) )
++    {
++        HLOGE("allow WriteHdiOutToPng");
++        {
++            if (bufferHandle == nullptr) {
++                return false;
++            }
++            struct timeval now;
++            gettimeofday(&now, nullptr);
++            constexpr int secToUsec = 1000 * 1000;
++            int64_t nowVal =  static_cast<int64_t>(now.tv_sec) * secToUsec + static_cast<int64_t>(now.tv_usec);
++            std::string filename = "/data/hdioutput/hdi_output_layer_" +
++                std::to_string(nowVal) + ".png";
++
++            WriteToPngParam param;
++            param.width = static_cast<uint32_t>(bufferHandle->width);
++            param.height = static_cast<uint32_t>(bufferHandle->height);
++            param.data = (uint8_t*)(buffer->GetVirAddr());
++            param.stride = static_cast<uint32_t>(bufferHandle->stride);
++            param.bitDepth = 8;
++            
++            WriteToPng(filename, param);
++            
++        }
++    }
++    return false;
++}
++
++
++bool RSBaseRenderUtil::WriteSurfaceBufferToPng(const sptr<SurfaceBuffer> &buffer)
++{
++    if((std::atoi((system::GetParameter("rosen.dump.surfacebuffer", "0")).c_str()) == ALLSURFACES) )
++    {
++        HLOGE("allow WriteSurfaceBufferToPng");
++        {
++            BufferHandle *bufferHandle = buffer->GetBufferHandle();
++            if (bufferHandle == nullptr) {
++                return false;
++            }
++            struct timeval now;
++            gettimeofday(&now, nullptr);
++            constexpr int secToUsec = 1000 * 1000;
++            int64_t nowVal =  static_cast<int64_t>(now.tv_sec) * secToUsec + static_cast<int64_t>(now.tv_usec);
++            std::string filename = "/data/hdioutput/hdi_output_layer_" +
++                std::to_string(nowVal) + ".png";
++
++            WriteToPngParam param;
++            param.width = static_cast<uint32_t>(bufferHandle->width);
++            param.height = static_cast<uint32_t>(bufferHandle->height);
++            param.data = (uint8_t*)(buffer->GetVirAddr());
++            param.stride = static_cast<uint32_t>(bufferHandle->stride);
++            param.bitDepth = 8;
++            
++            WriteToPng(filename, param);
++            
++        }
++    }
++    return false;
++}
++
++
++bool RSBaseRenderUtil::WriteSurfaceRenderNodeToPng(const RSSurfaceRenderNode& node)
++{
++    if((std::atoi((system::GetParameter("rosen.dump.rendernode", "0")).c_str()) == ALLSURFACES))
++    {
++        HLOGE("allow WriteSurfaceRenderNodetoPng");
++        sptr<SurfaceBuffer> buffer = node.GetBuffer();
++        if (buffer == nullptr) {
++            return false;
++        }
++        BufferHandle *bufferHandle =  buffer->GetBufferHandle();
++        if (bufferHandle == nullptr) {
++            return false;
++        }
++
++        struct timeval now;
++        gettimeofday(&now, nullptr);
++        constexpr int secToUsec = 1000 * 1000;
++        int64_t nowVal =  static_cast<int64_t>(now.tv_sec) * secToUsec + static_cast<int64_t>(now.tv_usec);
++        std::string filename = "/data/surfacenode/SurfaceRenderNode_" +
++            node.GetName() + "_"  +
++            std::to_string(node.GetId()) + "_" +
++            std::to_string(nowVal) + ".png";
++
++        WriteToPngParam param;
++        param.width = static_cast<uint32_t>(bufferHandle->width);
++        param.height = static_cast<uint32_t>(bufferHandle->height);
++        param.data = (uint8_t*)(buffer->GetVirAddr());
++        param.stride = static_cast<uint32_t>(bufferHandle->stride);
++        param.bitDepth = 8;
++
++        return WriteToPng(filename, param);      
++    }
++
++    return false;
++}
++
++}// namespace Rosen
++} // namespace OHOS
+\ No newline at end of file
+diff --git a/rosen/modules/render_service/BUILD.gn b/rosen/modules/render_service/BUILD.gn
+index 5515357d..10443971 100644
+--- a/rosen/modules/render_service/BUILD.gn
++++ b/rosen/modules/render_service/BUILD.gn
+@@ -75,6 +75,8 @@ ohos_shared_library("librender_service") {
+     "//utils/system/safwk/native/include",
+     "//foundation/graphic/graphic_2d/utils/log",
+     "//foundation/barrierfree/accessibility/interfaces/innerkits/acfwk/include",
++    "//drivers/peripheral/display/interfaces/include",
++    "//third_party/libpng",
+   ]
+ 
+   deps = [
+@@ -90,6 +92,7 @@ ohos_shared_library("librender_service") {
+   public_deps = [
+     "//third_party/flutter/build/skia:ace_skia_ohos",
+     "//third_party/libpng:libpng",
++    "//foundation/graphic/graphic_2d/utils:buffer_handle",
+   ]
+ 
+   external_deps = [
+@@ -100,6 +103,7 @@ ohos_shared_library("librender_service") {
+     "init:libbegetutil",
+     "ipc:ipc_core",
+     "samgr:samgr_proxy",
++    "init:libbegetutil",
+   ]
+ 
+   part_name = "graphic_standard"
+diff --git a/rosen/modules/render_service/core/pipeline/rs_render_service_visitor.cpp b/rosen/modules/render_service/core/pipeline/rs_render_service_visitor.cpp
+index b4b01d30..24888197 100644
+--- a/rosen/modules/render_service/core/pipeline/rs_render_service_visitor.cpp
++++ b/rosen/modules/render_service/core/pipeline/rs_render_service_visitor.cpp
+@@ -201,6 +201,8 @@ void RSRenderServiceVisitor::PrepareSurfaceRenderNode(RSSurfaceRenderNode& node)
+ 
+ void RSRenderServiceVisitor::ProcessSurfaceRenderNode(RSSurfaceRenderNode& node)
+ {
++    fovt_p();
++    RSBaseRenderUtil::WriteSurfaceRenderNodeToPng(node);
+     if (!processor_) {
+         RS_LOGE("RSRenderServiceVisitor::ProcessSurfaceRenderNode processor is nullptr");
+         return;
+@@ -225,7 +227,6 @@ void RSRenderServiceVisitor::ProcessSurfaceRenderNode(RSSurfaceRenderNode& node)
+     node.SetGlobalZOrder(globalZOrder_);
+     globalZOrder_ = globalZOrder_ + 1;
+     processor_->ProcessSurface(node);
+-    RSBaseRenderUtil::WriteSurfaceRenderNodeToPng(node);
+     if (mParallelEnable) {
+         node.ParallelVisitUnlock();
+     }
+-- 
+2.25.1
+

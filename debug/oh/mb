@@ -1,0 +1,5 @@
+#sudo mount.cifs //10.31.32.11/chenzigui /data/share/chenzigui -o username=chenzigui,uid=1000,gid=1000,dir_mode=0777,file_mode=0777
+#sudo mount.cifs //10.31.32.11/phytium_share /data/share/phytium_share/ -o username=chenzigui,uid=1000,gid=1000,dir_mode=0777,file_mode=0777
+
+sshfs chenzigui@emserver:/home2/chenzigui/ /data/share/chenzigui/
+sshfs chenzigui@emserver:/home2/phytium_share /data/share/phytium_share/
