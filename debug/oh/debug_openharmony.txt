@@ -12,11 +12,16 @@ hilog -w start -t kmsg -f "kmsg" -l 10M -m zlib -n 2
 hilog -w start -f "hilog" -l 200M -m zlib -n 1000
 
 
+#setenv bootargs console=ttyAMA1,115200 earlycon=p1011,0x28001000 root=/dev/ram0 elevator=deadline rootwait rw loglevel=7 hardware=d2000 rootfstype=ext4 initrd=0x94000000,90M
+setenv bootargs console=ttyAMA1,115200 earlycon=p1011,0x28001000 root=/dev/ram0 elevator=deadline rootwait rw loglevel=3 hardware=d2000 rootfstype=ext4 initrd=0x94000000,90M
+setenv bootargs console=ttyAMA1,115200 earlycon=p1011,0x28001000 root=/dev/ram0 elevator=deadline rootwait rw loglevel=7 hardware=d2000 rootfstype=ext4 initrd=0x94000000,90M cma=1024M phytium-dc-drm.x100_dc_sysmem
+setenv bootargs console=ttyAMA1,115200 earlycon=p1011,0x28001000 root=/dev/ram0 elevator=deadline rootwait rw loglevel=7 hardware=d2000 rootfstype=ext4 initrd=0x94000000,90M cma=512M phytium-dc-drm.x100_dc_sysmem
 skh-oh-d2000-uboot:(hardware=ftd2000, OH第二级启动分区信息加载fstab.ftd2000)
 setenv bootargs console=ttyAMA1,115200 earlycon=p1011,0x28001000 root=/dev/ram0 elevator=deadline rootwait rw loglevel=6 hardware=ftd2000 rootfstype=ext4 initrd=0x94000000,90M
 setenv bootcmd 'ext4load scsi 1:1 0x90100000 d2000-devboard-dsk.dtb;ext4load scsi 1:1 0x90200000 Image;ext4load scsi 1:1 0x94000000 ramdisk.img;booti 0x90200000 - 0x90100000'
 
 skh-oh4.0:
+setenv bootargs console=ttyAMA1,115200 earlycon=p1011,0x28001000 root=/dev/ram0 elevator=deadline rootwait rw loglevel=7 hardware=d2000 rootfstype=ext4 initrd=0x94000000,90M cma=1024M phytium-dc-drm.x100_dc_sysmem
 setenv bootargs console=ttyAMA1,115200 earlycon=p1011,0x28001000 root=/dev/ram0 elevator=deadline rootwait rw loglevel=3 hardware=d2000 rootfstype=ext4 initrd=0x94000000,90M cma=1024M phytium-dc-drm.x100_dc_sysmem
 setenv bootcmd 'ext4load scsi 1:1 0x90100000 pd2008-devboard-dsk.dtb;ext4load scsi 1:1 0x90200000 Image;ext4load scsi 1:1 0x94000000 ramdisk.img;booti 0x90200000 - 0x90100000'
 
