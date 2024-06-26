@@ -54,7 +54,8 @@ bindsym $mod+w exec "rofi run -show window"
 bindsym F2 exec flameshot gui
 
 # i3lock: i3lock-color + i3lock-fancy, 锁屏快捷键
-bindsym $mod+ctrl+l exec i3lock-fancy
+# use fast i3lock-fancy: i3lock-fancy-rapid
+bindsym $mod+ctrl+l exec i3lock-fancy-rapid 5 2
 
 # 干掉窗格
 bindsym $mod+q kill

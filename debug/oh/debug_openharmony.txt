@@ -22,8 +22,10 @@ setenv bootcmd 'ext4load scsi 1:1 0x90100000 d2000-devboard-dsk.dtb;ext4load scs
 
 skh-oh4.0:
 setenv bootargs console=ttyAMA1,115200 earlycon=p1011,0x28001000 root=/dev/ram0 elevator=deadline rootwait rw loglevel=7 hardware=d2000 rootfstype=ext4 initrd=0x94000000,90M cma=1024M phytium-dc-drm.x100_dc_sysmem
-setenv bootargs console=ttyAMA1,115200 earlycon=p1011,0x28001000 root=/dev/ram0 elevator=deadline rootwait rw loglevel=3 hardware=d2000 rootfstype=ext4 initrd=0x94000000,90M cma=1024M phytium-dc-drm.x100_dc_sysmem
+setenv bootargs console=ttyAMA1,115200 earlycon=p1011,0x28001000 root=/dev/ram0 elevator=deadline rootwait rw loglevel=3 hardware=d2000 rootfstype=ext4 initrd=0x94000000,90M
+setenv bootargs console=ttyAMA1,115200 earlycon=p1011,0x28001000 root=/dev/ram0 elevator=deadline rootwait rw loglevel=7 hardware=d2000 rootfstype=ext4 initrd=0x94000000,90M
 setenv bootcmd 'ext4load scsi 1:1 0x90100000 pd2008-devboard-dsk.dtb;ext4load scsi 1:1 0x90200000 Image;ext4load scsi 1:1 0x94000000 ramdisk.img;booti 0x90200000 - 0x90100000'
+setenv bootcmd 'ext4load scsi 1:1 0x90100000 phytium-devboard-dsk.dtb;ext4load scsi 1:1 0x90200000 Image;ext4load scsi 1:1 0x94000000 ramdisk.img;booti 0x90200000 - 0x90100000'
 
 setenv bootargs console=ttyAMA1,115200 earlycon=p1011,0x28001000 root=/dev/ram0 elevator=deadline rootwait rw loglevel=3 hardware=d2000 rootfstype=ext4 initrd=0x94000000,90M
 setenv bootcmd 'ext4load scsi 1:1 0x90100000 pd2008-devboard-dsk.dtb;ext4load scsi 1:1 0x90200000 Image;ext4load scsi 1:1 0x94000000 ramdisk.img;booti 0x90200000 - 0x90100000'
@@ -53,7 +55,7 @@ hdcd &
 # pc set
 hdc  tconn 10.31.90.121:9527
 hdc shell
-l
+
 ## 3.2 hilog
 hilog -w start -l 30M -n 20
 hilog -w stop
@@ -76,6 +78,7 @@ cd /data/log; tar -czf hilog.tar.gz  hilog
 hdc file recv /data/log/hilog.tar.gz
 
 ## 3.3 debug and test
+hbdumper -s RenderService -a screen
 hidumper -s RenderService -a allInfo
 hidumper -s RenderService -a allInfo | grep -i active
 wukong exec -i 1000 -T 10080
@@ -93,6 +96,7 @@ service_control start render_service
 
 param set rosen.dump.rendernode 2
 param set rosen.dump.surfacebuffer 2
+power-shell setmode 602
 
 ## 3.4 compiler and build
 ./build.sh --product-name d2000 --ccache --target-cpu arm64 --jobs=888
