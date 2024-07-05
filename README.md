@@ -45,3 +45,7 @@
 - `一些调试常用的内容`
 # md
 - `markdown一些常用的操作`
+# swimming
+- `索尼游泳耳机相关内容`
+    - `ln -fs /data/bin/tools/swimming/convert /data/bin/music`
+
