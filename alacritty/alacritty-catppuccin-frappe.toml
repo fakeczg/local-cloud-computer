@@ -1,90 +1,83 @@
- [font]
+[font]
 bold.family = "Hack Nerd Font"
 italic.family = "Hack Nerd Font"
 bold_italic.family = "Hack Nerd Font"
 size = 12
 
- [window]
- opacity = 0.8
+[window]
+opacity = 0.85  # 提高透明度，减少背景干扰，同时增强对比度
 
- [colors]
+[colors.primary]
+background = "#1E1E2E"  # 深蓝灰色背景，提供高对比度
+foreground = "#FFFFFF"  # 纯白色前景，确保最高可读性
 
- [colors.primary]
- background = "#303446" # base
- foreground = "#C6D0F5" # text
- dim_foreground = "#C6D0F5" # text
- bright_foreground = "#C6D0F5" # text
+[colors.cursor]
+text = "#1E1E2E"  # 光标文本颜色，与背景相配
+cursor = "#FFB86C"  # 明亮的橙色光标，明显突出
 
- [colors.cursor]
- text = "#303446" # base
- cursor = "#F2D5CF" # rosewater
+[colors.vi_mode_cursor]
+text = "#1E1E2E"
+cursor = "#BD93F9"  # 明亮的紫色光标，用于Vi模式下的对比
 
- [colors.vi_mode_cursor]
- text = "#303446" # base
- cursor = "#BABBF1" # lavender
+[colors.search.matches]
+foreground = "#1E1E2E"
+background = "#50FA7B"  # 亮绿色背景，确保搜索匹配部分清晰可见
 
- [colors.search]
+[colors.search.focused_match]
+foreground = "#1E1E2E"
+background = "#FF5555"  # 明亮的红色背景，聚焦搜索匹配的高可见性
 
- [colors.search.matches]
- foreground = "#303446" # base
- background = "#A5ADCE" # subtext0
+[colors.footer_bar]
+foreground = "#1E1E2E"
+background = "#50FA7B"  # 亮绿色背景，用于脚注栏
 
- [colors.search.focused_match]
- foreground = "#303446" # base
- background = "#A6D189" # green
+[colors.hints.start]
+foreground = "#1E1E2E"
+background = "#FFB86C"  # 明亮的橙色背景，用于提示
 
- [colors.footer_bar]
- foreground = "#303446" # base
- background = "#A5ADCE" # subtext0
+[colors.hints.end]
+foreground = "#1E1E2E"
+background = "#FF5555"  # 明亮的红色背景，用于提示结束
 
- [colors.hints]
+[colors.selection]
+text = "#1E1E2E"
+background = "#8BE9FD"  # 明亮的青色背景，用于文本选择
 
- [colors.hints.start]
- foreground = "#303446" # base
- background = "#E5C890" # yellow
+[colors.normal]
+black = "#282A36"  # 深灰色
+red = "#FF5555"  # 明亮的红色，确保警示效果
+green = "#50FA7B"  # 亮绿色，用于肯定性文本
+yellow = "#F1FA8C"  # 亮黄色，用于强调
+blue = "#BD93F9"  # 亮紫色，用于减少视觉疲劳
+magenta = "#FF79C6"  # 亮粉色，增加视觉层次
+cyan = "#8BE9FD"  # 亮青色，保持整体风格一致
+white = "#FFFFFF"  # 纯白色，用于高亮显示
 
- [colors.hints.end]
- foreground = "#303446" # base
- background = "#A5ADCE" # subtext0
+[colors.bright]
+black = "#44475A"  # 稍亮的深灰色
+red = "#FF6E6E"
+green = "#69FF94"
+yellow = "#FFFFA5"
+blue = "#D6ACFF"
+magenta = "#FF92DF"
+cyan = "#A4FFFF"
+white = "#F8F8F2"  # 更亮的白色
 
- [colors.selection]
- text = "#303446" # base
- background = "#F2D5CF" # rosewater
+[colors.dim]
+black = "#1E1E2E"  # 更深的背景色
+red = "#FF5555"
+green = "#50FA7B"
+yellow = "#F1FA8C"
+blue = "#BD93F9"
+magenta = "#FF79C6"
+cyan = "#8BE9FD"
+white = "#BFBFBF"  # 稍暗的白色
 
- [colors.normal]
- black = "#51576D" # surface1
- red = "#E78284" # red
- green = "#A6D189" # green
- yellow = "#E5C890" # yellow
- blue = "#8CAAEE" # blue
- magenta = "#F4B8E4" # pink
- cyan = "#81C8BE" # teal
- white = "#B5BFE2" # subtext1
+[[colors.indexed_colors]]
+index = 16
+color = "#FF79C6"  # 调整为与主要粉色一致
 
- [colors.bright]
- black = "#626880" # surface2
- red = "#E78284" # red
- green = "#A6D189" # green
- yellow = "#E5C890" # yellow
- blue = "#8CAAEE" # blue
- magenta = "#F4B8E4" # pink
- cyan = "#81C8BE" # teal
- white = "#A5ADCE" # subtext0
+[[colors.indexed_colors]]
+index = 17
+color = "#BD93F9"  # 使用亮紫色作为次要颜色
 
- [colors.dim]
- black = "#51576D" # surface1
- red = "#E78284" # red
- green = "#A6D189" # green
- yellow = "#E5C890" # yellow
- blue = "#8CAAEE" # blue
- magenta = "#F4B8E4" # pink
- cyan = "#81C8BE" # teal
- white = "#B5BFE2" # subtext1
-
- [[colors.indexed_colors]]
- index = 16
- color = "#EF9F76"
-
- [[colors.indexed_colors]]
- index = 17
- color = "#F2D5CF"
