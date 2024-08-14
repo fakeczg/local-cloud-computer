@@ -1,0 +1,31 @@
+[user]
+	name = fovt
+	email = chenzigui1762@phytium.com.cn
+[core]
+	editor = nvim
+	quotepath = false
+	autocrlf = false
+[safe]
+	directory = /data/share/chenzigui/src/Openharmony/D2000/OH_V3.2_RE/foundation/graphic/graphic_2d
+	directory = /usr/share/fonts
+	directory = /data/share/chenzigui/src/Openharmony/E2000/gitlab/device_soc_phytium
+	directory = /data/share/chenzigui/src/Openharmony/D2000/sync/openharmony_d2000_device
+	directory = /data/share/chenzigui/src/rogue/powervr_graphics_ddk/linux/rogue
+	directory = /data/share/chenzigui/src/Openharmony/D2000/PURE_OH_V4.0_RE/openharmony_d2000_device
+	directory = /data/share/chenzigui/src/Openharmony/D2000/OH_V4.1_RE/openharmony_d2000_device
+	directory = /data/share/home3/src/Kernel/kernel_linux_5.10
+	directory = /data/share/home3/src/Kernel/kernel_linux_5.10
+	directory = /data/share/home2/src/Openharmony/D2000/OH_V4.1_RE/src/out/d2000/KERNEL_OBJ/kernel/src_tmp/linux-5.10
+[init]
+	defaultBranch = main
+[color]
+    ui = true
+
+[color "diff"]
+    old = red bold  # 删除的行使用红色加粗显示
+    new = blue bold  # 新增的行使用蓝色加粗显示
+    frag = magenta bold  # 区块信息使用洋红色加粗显示
+    func = magenta bold  # 函数名使用黄色加粗显示
+    context = normal  # 其他内容使用默认颜色
+    meta = cyan bold  # 元数据（如索引信息）使用青色加粗显示
+    whitespace = red reverse  # 多余的空白字符用红色反转显示

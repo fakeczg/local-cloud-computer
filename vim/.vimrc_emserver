@@ -1,0 +1,20 @@
+syntax enable
+set background=dark
+colorscheme desert
+
+highlight Normal ctermbg=NONE
+highlight LineNr ctermfg=DarkGray ctermbg=NONE
+highlight Comment ctermfg=Cyan cterm=bold
+highlight Constant ctermfg=Yellow cterm=bold
+highlight Identifier ctermfg=Green cterm=bold
+highlight Statement ctermfg=Blue cterm=bold
+highlight PreProc ctermfg=Magenta cterm=bold
+highlight Type ctermfg=Red cterm=bold
+highlight Special ctermfg=Yellow cterm=bold
+highlight Todo ctermfg=Red ctermbg=Yellow cterm=bold
+
+set cursorline
+" 保持深色和浅色都通用
+" highlight CursorLine ctermbg=LightGray ctermfg=NONE  " 调整光标所在行的背景颜色
+
+highlight Visual ctermfg=Black ctermbg=Yellow cterm=bold  " 新增的可视模式配置
