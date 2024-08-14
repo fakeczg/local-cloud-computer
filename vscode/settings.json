@@ -229,4 +229,5 @@
 "[c]": {
     "editor.defaultFormatter": "ms-vscode.cpptools"
 },
+"cmake.showOptionsMovedNotification": false,
 }

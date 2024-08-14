@@ -56,6 +56,11 @@ hdcd &
 hdc  tconn 10.31.90.121:9527
 hdc shell
 
+ifconfig eth1 10.31.90.121 netmask 255.255.252.0
+param set persist.hdc.mode tcp
+param set persist.hdc.port 9527
+hdcd &
+
 ## 3.2 hilog
 hilog -w start -l 30M -n 20
 hilog -w stop
@@ -78,7 +83,7 @@ cd /data/log; tar -czf hilog.tar.gz  hilog
 hdc file recv /data/log/hilog.tar.gz
 
 ## 3.3 debug and test
-hbdumper -s RenderService -a screen
+hidumper -s RenderService -a screen
 hidumper -s RenderService -a allInfo
 hidumper -s RenderService -a allInfo | grep -i active
 wukong exec -i 1000 -T 10080
@@ -87,6 +92,8 @@ wukong exec -i 1 -T 10080
 mount -o remount,rw  /
 service_control stop render_service
 service_control stop  composer_host
+service_control start  composer_host
+service_control start bootanimation
 service_control start render_service
 /data/modetest -M dc -s 53@37:1920x1080 -v
 /data/modetest -M dc -s 53@37:1920x1080 -a
