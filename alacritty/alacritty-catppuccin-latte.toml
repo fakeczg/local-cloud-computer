@@ -1,14 +1,16 @@
 [font]
-bold.family = "Hack Nerd Font"
-italic.family = "Hack Nerd Font"
-bold_italic.family = "Hack Nerd Font"
-size = 12
+normal = { family = "Hack Nerd Font", style = "Regular" }
+bold = { family = "Hack Nerd Font", style = "Bold" }
+italic = { family = "Hack Nerd Font", style = "Italic" }
+bold_italic = { family = "Hack Nerd Font", style = "Bold Italic" }
+size = 10
 
 [window]
 opacity = 0.85  # 提高透明度，减少背景干扰，增强护眼效果
 
 [colors.primary]
-background = "#DDEDEA"  # 更柔和的浅绿色背景，进一步护眼
+#background = "#DDEDEA"  # 更柔和的浅绿色背景，进一步护眼
+background = "#CCEED0"  # 加深的浅绿色背景，进一步护眼
 foreground = "#2E3440"  # 深灰色前景色，提供良好的对比度和可读性
 
 [colors.cursor]

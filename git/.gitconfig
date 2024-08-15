@@ -18,14 +18,38 @@
 	directory = /data/share/home2/src/Openharmony/D2000/OH_V4.1_RE/src/out/d2000/KERNEL_OBJ/kernel/src_tmp/linux-5.10
 [init]
 	defaultBranch = main
+
 [color]
     ui = true
+    branch = true
+    diff = true
+    status = true
+
+[color "branch"]
+    current = magenta bold  # 当前分支使用黄色加粗显示
+    local = blue bold  # 本地分支使用蓝色加粗显示
+    remote = red bold  # 远程分支使用红色加粗显示
 
 [color "diff"]
     old = red bold  # 删除的行使用红色加粗显示
     new = blue bold  # 新增的行使用蓝色加粗显示
     frag = magenta bold  # 区块信息使用洋红色加粗显示
-    func = magenta bold  # 函数名使用黄色加粗显示
+    func = magenta bold  # 函数名使用洋红色加粗显示
     context = normal  # 其他内容使用默认颜色
     meta = cyan bold  # 元数据（如索引信息）使用青色加粗显示
     whitespace = red reverse  # 多余的空白字符用红色反转显示
+
+[color "status"]
+    added = blue bold  # 新增文件使用蓝色加粗显示
+    changed = magenta bold  # 修改的文件使用洋红色加粗显示
+    untracked = red bold  # 未跟踪的文件使用红色加粗显示
+
+[color "log"]
+    date = cyan bold  # 日期使用青色加粗显示
+    hash = red bold  # 提交哈希使用红色加粗显示
+    summary = blue bold  # 提交摘要使用蓝色加粗显示
+    author = magenta bold  # 作者名使用洋红色加粗显示
+    graph = normal bold  # 提交图形使用默认颜色加粗显示
+
+[color "push"]
+    error = brightred bold  # 错误信息使用亮红色加粗显示
