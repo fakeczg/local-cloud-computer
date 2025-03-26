@@ -39,6 +39,7 @@ exec_always --no-startup-id compton
 # 2. get props by "device name": list-props "SYNACEF5:00 06CB:CEF5 Touchpad"
 # 3. set "device name" "props": xinput set-atom-prop "SYNACEF5:00 06CB:CEF5 Touchpad" "Natural Scrolling Enabled" 1
 exec --no-startup-id xinput set-atom-prop "SYNACEF5:00 06CB:CEF5 Touchpad" "Natural Scrolling Enabled" 1
+exec --no-startup-id xinput set-prop "SYNACEF5:00 06CB:CEF5 Touchpad" "libinput Accel Speed" 0.5
 
 #--------------------------- Key --------------------
 # 所有的按键前面都会有一个默认前提，按下mod，后面不再进行阐述
