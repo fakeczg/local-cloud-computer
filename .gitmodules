@@ -1,0 +1,3 @@
+[submodule "8821cu"]
+	path = 8821cu
+	url = git@github.com:morrownr/8821cu-20210916.git
