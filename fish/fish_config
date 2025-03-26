@@ -2,16 +2,12 @@
 #if status is-interactive
 # 1. proxy
 # clash for window
-export https_proxy=http://127.0.0.1:7890
-export http_proxy=http://127.0.0.1:7890
-export all_proxy=socks5:http://127.0.0.1:7890
-# archlinux use leensa by wine
-export https_proxy=http://127.0.0.1:23457
-export http_proxy=http://127.0.0.1:23457
-export all_proxy=socks5:http://127.0.0.1:23457
-#export https_proxy=http://172.20.124.86:7890
-#export http_proxy=http://172.20.124.86:7890
-#export all_proxy=socks5:http://172.20.124.86:7890
+#export https_proxy=http://127.0.0.1:7890
+#export http_proxy=http://127.0.0.1:7890
+#export all_proxy=socks5:http://127.0.0.1:7890
+export https_proxy=http://127.0.0.1:9527
+export http_proxy=http://127.0.0.1:9527
+export all_proxy=socks5:http://127.0.0.1:9527
 # 2. nvim
 alias nv nvim
 # 3. EDITOR
@@ -37,6 +33,16 @@ alias gb "git branch -a"
 alias se "ssh chenzigui@emserver"
 # 11. fd
 alias fd='fd -I'
+# 12. nvim
+set -gx NVM_DIR $HOME/.nvm
+function nvm
+    bass source $NVM_DIR/nvm.sh --no-use ';' nvm $argv
+end
+function __nvm_complete
+    bass source $NVM_DIR/bash_completion ';' complete -C"nvm $argv"
+end
+# 注册补全（fish 内部完成）
+complete -c nvm -f -a "(__nvm_complete)"
 
 
 #  imwhell
