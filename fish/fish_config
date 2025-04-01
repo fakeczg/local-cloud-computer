@@ -43,7 +43,8 @@ function __nvm_complete
 end
 # 注册补全（fish 内部完成）
 complete -c nvm -f -a "(__nvm_complete)"
-
+# 13. mount
+sshfs chenzigui@emserver:/home3/chenzigui/ /data/share/chenzigui/
 
 #  imwhell
 #/usr/bin/imwheel

@@ -1,3 +1,9 @@
 [submodule "8821cu"]
 	path = 8821cu
 	url = git@github.com:morrownr/8821cu-20210916.git
+[submodule "tmux/tmux-resurrect"]
+	path = tmux/tmux-resurrect
+	url = git@github.com:tmux-plugins/tmux-resurrect.git
+[submodule "tmux/tmux-continuum"]
+	path = tmux/tmux-continuum
+	url = git@github.com:tmux-plugins/tmux-continuum.git

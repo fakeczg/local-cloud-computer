@@ -2,8 +2,8 @@
 
 # 检查传入的参数，必须为 laptop 或 desktop
 if [ "$1" != "laptop" ] && [ "$1" != "desktop" ]; then
-  echo "Usage: $0 {laptop|desktop}"
-  exit 1
+	echo "Usage: $0 {laptop|desktop}"
+	exit 1
 fi
 
 # 设定配置类型（laptop 或 desktop）
@@ -14,28 +14,29 @@ USER_HOME=$(eval echo ~$USER)
 
 # 检查并创建目录的函数
 create_directory() {
-  if [ ! -d "$1" ]; then
-    echo "目录 $1 不存在，正在创建..."
-    mkdir -p "$1"
-  fi
+	if [ ! -d "$1" ]; then
+		echo "目录 $1 不存在，正在创建..."
+		mkdir -p "$1"
+	fi
 }
 
 # 检查并创建文件的函数
 create_file() {
-  if [ ! -f "$1" ]; then
-    echo "文件 $1 不存在，正在创建..."
-    touch "$1"
-  fi
+	if [ ! -f "$1" ]; then
+		echo "文件 $1 不存在，正在创建..."
+		touch "$1"
+	fi
 }
 
 # tmux 配置
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ln -fs /data/bin/local-cloud-computer/tmux/tmux.conf "$USER_HOME/.tmux.conf"
 
 # i3 配置
 if [ "$CONFIG_TYPE" == "laptop" ]; then
-  ln -fs /data/bin/local-cloud-computer/i3/laptop_config "$USER_HOME/.config/i3/config"
+	ln -fs /data/bin/local-cloud-computer/i3/laptop_config "$USER_HOME/.config/i3/config"
 else
-  ln -fs /data/bin/local-cloud-computer/i3/desktop_config "$USER_HOME/.config/i3/config"
+	ln -fs /data/bin/local-cloud-computer/i3/desktop_config "$USER_HOME/.config/i3/config"
 fi
 
 # i3status 和 i3status-rust 配置
@@ -43,11 +44,10 @@ ln -fs /data/bin/local-cloud-computer/i3/i3status "$USER_HOME/.config"
 ln -fs /data/bin/local-cloud-computer/i3/i3status-rust "$USER_HOME/.config"
 
 if [ "$CONFIG_TYPE" == "laptop" ]; then
-  ln -fs /data/bin/local-cloud-computer/i3/i3status-rust/laptop_config.toml "$USER_HOME/.config/i3status-rust/config.toml"
+	ln -fs /data/bin/local-cloud-computer/i3/i3status-rust/laptop_config.toml "$USER_HOME/.config/i3status-rust/config.toml"
 else
-  ln -fs /data/bin/local-cloud-computer/i3/i3status-rust/desktop_config.toml "$USER_HOME/.config/i3status-rust/config.toml"
+	ln -fs /data/bin/local-cloud-computer/i3/i3status-rust/desktop_config.toml "$USER_HOME/.config/i3status-rust/config.toml"
 fi
-
 
 # vscode 配置
 create_directory "$USER_HOME/.config/Code/User"
@@ -95,4 +95,3 @@ echo "markdown一些常用的操作"
 # swimming 配置
 # create_directory "/data/bin/music"
 # ln -fs /data/bin/local-cloud-computer/swimming/convert /data/bin/music
-
