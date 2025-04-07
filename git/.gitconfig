@@ -31,12 +31,12 @@
     remote = red bold  # 远程分支使用红色加粗显示
 
 [color "diff"]
-    old = red bold  # 删除的行使用红色加粗显示
-    new = blue bold  # 新增的行使用蓝色加粗显示
+    old = red bold  # 删除的行使用亮红色加粗显示
+    new = bold 93  # 新增的行使用亮紫色加粗显示
     frag = magenta bold  # 区块信息使用洋红色加粗显示
     func = magenta bold  # 函数名使用洋红色加粗显示
     context = normal  # 其他内容使用默认颜色
-    meta = cyan bold  # 元数据（如索引信息）使用青色加粗显示
+    meta = cyan bold ul  # 元数据（如索引信息）使用青色加粗显示
     whitespace = red reverse  # 多余的空白字符用红色反转显示
 
 [color "status"]
@@ -53,3 +53,5 @@
 
 [color "push"]
     error = brightred bold  # 错误信息使用亮红色加粗显示
+[alias]
+	lg = log --color --graph --pretty=format:'%C(bold 93)%h%Creset -%C(blue)%d%Creset %C(red)%s%Creset %C(cyan)(%cr)%Creset %C(cyan)<%an>%Creset' --abbrev-commit
