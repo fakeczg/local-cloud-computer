@@ -31,8 +31,8 @@ exec --no-startup-id  xrandr  --output DP-2 --primary --mode 2560x1440 -r 120
 #exec_always --no-startup-id feh --bg-fill /data/bin/local-cloud-computer/pictures/backgrounds/sun28.jpg
 exec_always --no-startup-id feh --bg-fill /data/bin/local-cloud-computer/pictures/backgrounds/1.jpg
 
-# comption用来实现终端透明
-exec_always --no-startup-id compton
+# picom用来实现终端透明
+exec_always --no-startup-id picom
 
 # 笔记本触摸板的控制
 # 1. get touch device name: xinput | grep -i touch

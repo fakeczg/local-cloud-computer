@@ -1,4 +1,6 @@
-ln -s /data/bin/tools/alacritty/alacritty-catppuccin-latte.toml ~/.config/alacritty/alacritty.toml -f
-/data/bin/tools/alacritty/set_fish_light.sh
+#真实的路径需要参考readme.md的dir
+# mkdir -p ~/.config/alacritty
+ln -s /data/bin/local-cloud-computer/alacritty/alacritty-catppuccin-latte.toml ~/.config/alacritty/alacritty.toml -f
+/data/bin/local-cloud-computer/alacritty/set_fish_light.sh
 
 

@@ -49,6 +49,9 @@ else
 	ln -fs /data/bin/local-cloud-computer/i3/i3status-rust/desktop_config.toml "$USER_HOME/.config/i3status-rust/config.toml"
 fi
 
+# picom配置
+ln -fs /data/bin/local-cloud-computer/picom "$USER_HOME/.config"
+
 # vscode 配置
 create_directory "$USER_HOME/.config/Code/User"
 ln -fs /data/bin/local-cloud-computer/vscode/settings.json "$USER_HOME/.config/Code/User/settings.json"
