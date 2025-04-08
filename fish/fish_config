@@ -45,7 +45,17 @@ end
 # 注册补全（fish 内部完成）
 complete -c nvm -f -a "(__nvm_complete)"
 # 13. mount
-sshfs chenzigui@emserver:/home3/chenzigui/ /data/share/chenzigui/
+if ! mountpoint -q /data/share/chenzigui/
+    sshfs chenzigui@emserver:/home3/chenzigui/ /data/share/chenzigui/
+end
+# 14. ag
+function ag
+    command ag --color \
+        --color-line-number="1;32" \
+        --color-path="1;35" \
+        --color-match="1;31" \
+        $argv
+end
 
 #  imwhell
 #/usr/bin/imwheel

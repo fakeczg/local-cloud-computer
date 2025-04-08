@@ -83,3 +83,42 @@ class code(Command):
     def tab(self, tabnum):
         # 提供文件和文件夹的自动补全
         return self._tab_directory_content()
+
+
+from ranger.api.commands import Command
+
+class extract(Command):
+    """:extract <filename>
+    解压 ZIP/TAR/GZ/RAR/7Z 等压缩文件
+    """
+    def execute(self):
+        import os
+        file = self.rest(1)
+        if not file:
+            file = self.fm.thisfile.path
+        if not os.path.exists(file):
+            self.fm.notify(f"文件不存在: {file}", bad=True)
+            return
+
+        # 获取文件名（不带扩展名）
+        name, _ = os.path.splitext(file)
+        cmd = None
+
+        if file.endswith(('.zip', '.ZIP')):
+            cmd = f'unzip "{file}" -d "{name}"'
+        elif file.endswith(('.tar.gz', '.tgz')):
+            cmd = f'tar -xzvf "{file}" -C "{name}"'
+        elif file.endswith(('.tar.xz', '.txz')):
+            cmd = f'tar -xJvf "{file}" -C "{name}"'
+        elif file.endswith(('.rar', '.RAR')):
+            cmd = f'unrar x "{file}" "{name}/"'
+        elif file.endswith(('.7z', '.7Z')):
+            cmd = f'7z x "{file}" -o"{name}"'
+        else:
+            self.fm.notify("不支持的文件格式！", bad=True)
+            return
+
+        # 创建目标目录并解压
+        os.makedirs(name, exist_ok=True)
+        self.fm.run(cmd)
+        self.fm.notify(f"解压完成: {file} → {name}/")
