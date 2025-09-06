@@ -1,20 +1,17 @@
+# ===== 主题 / 图标 =====
 [theme]
 theme = "bad-wolf"
 
 [icons]
 icons = "awesome4"
-# 电池图标自定义
+
 [icons.overrides]
-bat = [
-    "▒▒▒▒▒",
-    "█▒▒▒▒",
-    "██▒▒▒",
-    "███▒▒",
-    "████▒",
-    "█████",
-]
+bat = ["▒▒▒▒▒","█▒▒▒▒","██▒▒▒","███▒▒","████▒","█████"]
 bat_charging = "⚡██▒▒"
 
+# ===== 模块们 =====
+
+# 电池（/sys/class/power_supply/ 下若是 BAT1 请改名）
 [[block]]
 block = "battery"
 format = " $icon $percentage {$time |}"
@@ -22,10 +19,12 @@ device = "BAT0"
 driver = "sysfs"
 interval = 10
 
+# 网络
 [[block]]
 block = "net"
-format = " $icon {$signal_strength $ssid $frequency|Wired connection} via $device "
+format = " $icon {$signal_strength $ssid $frequency | Wired connection} via $device "
 
+# CPU
 [[block]]
 block = "cpu"
 interval = 1
@@ -38,6 +37,7 @@ idle_fg = "#abcdef"
 cpu_boost_on = "ON"
 cpu_boost_off = "OFF"
 
+# Load
 [[block]]
 block = "load"
 format = " $icon 1min avg: $1m.eng(w:4) "
@@ -46,6 +46,7 @@ interval = 1
 idle_bg = "#555555"
 idle_fg = "#abcdef"
 
+# 磁盘
 [[block]]
 block = "disk_space"
 info_type = "available"
@@ -61,10 +62,10 @@ update = true
 idle_bg = "#6272a4"
 idle_fg = "#f8f8f2"
 
+# 内存
 [[block]]
 block = "memory"
 format = " $icon $mem_used_percents.eng(w:1) "
-#format_alt = " $icon_swap $swap_free.eng(w:3,u:B,p:Mi)/$swap_total.eng(w:3,u:B,p:Mi)($swap_used_percents.eng(w:2)) "
 format_alt = " $mem_used.eng(prefix:Mi)/$mem_total.eng(prefix:Mi)($mem_used_percents.eng(w:2)) "
 interval = 30
 warning_mem = 70
@@ -73,6 +74,7 @@ critical_mem = 90
 idle_bg = "#8d8759"
 idle_fg = "#ffe5b4"
 
+# 音量（左键开 pavucontrol）
 [[block]]
 block = "sound"
 [[block.click]]
@@ -82,19 +84,33 @@ cmd = "pavucontrol"
 idle_bg = "#7a5c61"
 idle_fg = "#ffd700"
 
+# 分辨率 —— 拉大定宽 & 多留空格，避免“顶到图标”
 [[block]]
 block = "xrandr"
-format = " $icon    $brightness $resolution "
+format = " $icon     $resolution.str(w:10)"
+#            ↑三空格                 ↑定宽 16（不够再加到 18/20）
 [block.theme_overrides]
 idle_bg = "#3a506b"
 idle_fg = "#faf3dd"
 
+# 亮度（0.34.0 用 $brightness）
+[[block]]
+block = "backlight"
+# 如需手动指定设备： device = "intel_backlight" / "amdgpu_bl0" / "acpi_video0" ...
+format = "☀ $brightness "
+[block.theme_overrides]
+idle_bg = "#3a506b"
+idle_fg = "#faf3dd"
+
+
 [[block]]
 block = "time"
 interval = 60
+
 [block.format]
-full = " $icon   $timestamp.datetime(f:'%Y-%m-%d %R', l:fr_BE) "
-short = " $icon   $timestamp.datetime(f:%R) "
+full  = " 🕒 <span background=\"#444444\" foreground=\"#ffffff\">$timestamp.datetime(f:'%Y-%m-%d %R', l:fr_BE)</span> "
+short = " 🕒 <span background=\"#555555\" foreground=\"#ffcc00\">$timestamp.datetime(f:%R)</span> "
+
 [block.theme_overrides]
 idle_bg = "#1b263b"
 idle_fg = "#eae2b7"

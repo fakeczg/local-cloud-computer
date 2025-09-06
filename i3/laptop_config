@@ -17,8 +17,11 @@ exec --no-startup-id /opt/clash-for-windows-bin/cfw
 # 设置分辨率和缩放比
 # 笔记本
 #exec --no-startup-id  xrandr  --output eDP-1 --primary --mode 2880x1800 -r 60
-# 笔记本屏幕太小，分辨率太大，设置一下scale改善一下视觉效果
-exec --no-startup-id  xrandr  --output eDP-1 --primary --mode 2880x1800 -r 60 --scale 0.7
+# 笔记本屏幕太小，分辨率太大，设置一下scale改善一下视觉效果,这个会有鼠标移动一会卡顿的效果.
+# 2880x1800 ---> 16:10
+# 16:10----> 2880x1800 / 2560x1600 / 1920x1200
+#exec --no-startup-id  xrandr  --output eDP-1 --primary --mode 2880x1800 -r 60 --scale 1.0
+exec --no-startup-id  xrandr  --output eDP-1 --primary --mode 1920x1200 -r 60 --scale 1.0
 # 公司台式电脑
 #exec --no-startup-id  xrandr  --output HDMI-2 --primary --mode 1920x1080 -r 60 --scale 1.0
 #exec --no-startup-id  xrandr  --output HDMI-2 --primary --mode 1920x1080 -r 60 --scale 1.0
@@ -32,7 +35,10 @@ exec_always --no-startup-id feh --bg-fill /data/pictures/backgrounds/40.jpg
 #exec_always --no-startup-id feh --bg-fill /data/pictures/backgrounds/img28.jpg
 
 # comption用来实现终端透明
-exec_always --no-startup-id compton
+#exec_always --no-startup-id compton
+# picom用来实现终端透明
+exec_always --no-startup-id sh -c 'killall -q compton picom; picom --config ~/.config/picom/picom.conf'
+
 
 # 笔记本触摸板的控制
 # 1. get touch device name: xinput | grep -i touch
