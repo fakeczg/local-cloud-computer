@@ -31,7 +31,9 @@ alias gd "git diff"
 alias gb "git branch -a"
 alias gl "git lg"
 # 10. phytium
-alias se "ssh chenzigui@emserver"
+alias se "ssh emserver-czg"
+alias se2 "ssh emserver2-czg"
+alias sj "ssh emserver-jenkins"
 # 11. fd
 alias fd='fd -I'
 # 12. nvim
@@ -44,10 +46,9 @@ function __nvm_complete
 end
 # 注册补全（fish 内部完成）
 complete -c nvm -f -a "(__nvm_complete)"
-# 13. mount
-if ! mountpoint -q /data/share/chenzigui/
-    sshfs chenzigui@emserver:/home3/chenzigui/ /data/share/chenzigui/
-end
+# 13. global path
+fish_add_path /data/bin/local-cloud-computer/bin
+
 # 14. ag
 function ag
     command ag --color \
@@ -95,10 +96,10 @@ if status is-login
 		export QT_QPA_PLATFORMTHEME=qt5ct
 		export CLUTTER_BACKEND=x11
 		export SDL_VIDEODRIVER=x11
-		export INPUT_METHOD=fcitx5
-		export GTK_IM_MODULE=fcitx5
-		export XMODIFIERS=@im=fcitx5
-		export QT_IM_MODULE=fcitx5
+		export INPUT_METHOD=fcitx
+		export GTK_IM_MODULE=fcitx
+		export XMODIFIERS=@im=fcitx
+		export QT_IM_MODULE=fcitx
 		export _JAVA_AWT_WM_NONREPARENTING=1
 		export XDG_CURRENT_DESKTOP=i3
 		export XDG_SESSION_DESKTOP=i3

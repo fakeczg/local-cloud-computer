@@ -1,0 +1,3 @@
+fusermount -u /data/share/emserver2 || true
+fusermount -u /data/share/emserver  || true
+fusermount -u /data/share/jenkins   || true

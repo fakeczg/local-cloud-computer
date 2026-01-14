@@ -1,3 +1,5 @@
+# ===== Alacritty Light · Eye-Friendly High Contrast =====
+
 [font]
 normal = { family = "Hack Nerd Font", style = "Regular" }
 bold = { family = "Hack Nerd Font", style = "Bold" }
@@ -6,80 +8,44 @@ bold_italic = { family = "Hack Nerd Font", style = "Bold Italic" }
 size = 10
 
 [window]
-opacity = 0.85  # 提高透明度，减少背景干扰，增强护眼效果
+opacity = 0.95
 
 [colors.primary]
-#background = "#DDEDEA"  # 更柔和的浅绿色背景，进一步护眼
-background = "#CCEED0"  # 加深的浅绿色背景，进一步护眼
-foreground = "#2E3440"  # 深灰色前景色，提供良好的对比度和可读性
+background = "#F6F8FA"   # 微暖奶白，护眼
+foreground = "#24292F"   # 深灰黑，高可读
 
 [colors.cursor]
-text = "#DDEDEA"  # 光标文本颜色，与背景相配
-cursor = "#4C566A"  # 深灰色光标，与背景和谐但仍突出
-
-[colors.vi_mode_cursor]
-text = "#DDEDEA"
-cursor = "#5E81AC"  # 柔和的蓝色光标，用于Vi模式下的对比
-
-[colors.search.matches]
-foreground = "#2E3440"
-background = "#A3BE8C"  # 柔和的绿色背景，确保搜索匹配部分清晰可见
-
-[colors.search.focused_match]
-foreground = "#2E3440"
-background = "#4C566A"  # 深灰色背景，聚焦搜索匹配的高可见性
-
-[colors.footer_bar]
-foreground = "#2E3440"
-background = "#B2D8C8"  # 柔和的绿色背景，适合长时间使用
-
-[colors.hints.start]
-foreground = "#2E3440"
-background = "#A3BE8C"  # 温和的绿色背景，用于提示
-
-[colors.hints.end]
-foreground = "#2E3440"
-background = "#4C566A"  # 深灰色背景，用于提示结束
+text = "#F6F8FA"
+cursor = "#0A5CAD"       # 稳定蓝，不晃眼
 
 [colors.selection]
-text = "#2E3440"
-background = "#A1E2C9"  # 柔和的绿色背景，用于文本选择
+text = "#24292F"
+background = "#D7EBFF"   # 护眼浅蓝
+
+[colors.search.matches]
+foreground = "#24292F"
+background = "#FFE28A"   # 护眼黄
+
+[colors.search.focused_match]
+foreground = "#FFFFFF"
+background = "#E55300"   # 暖橙
 
 [colors.normal]
-black = "#3B4252"
-red = "#BF616A"  # 使用更柔和的红色，以免与绿色产生视觉冲突
-green = "#A3BE8C"  # 主体使用的柔和绿色
-yellow = "#EBCB8B"  # 适度亮度的黄色，用于强调
-blue = "#5E81AC"  # 柔和的蓝色，减轻眼睛疲劳
-magenta = "#B48EAD"  # 柔和的紫色，增加视觉层次
-cyan = "#88C0D0"  # 柔和的青色，保持整体风格一致
-white = "#ECEFF4"  # 浅灰色，用于高亮显示
+black   = "#24292F"
+red     = "#B42318"
+green   = "#1F7A3E"
+yellow  = "#8A6A00"
+blue    = "#0A5CAD"
+magenta = "#7A4DD8"
+cyan    = "#1B6F6A"
+white   = "#FFFFFF"
 
 [colors.bright]
-black = "#4C566A"
-red = "#BF616A"
-green = "#A3BE8C"
-yellow = "#EBCB8B"
-blue = "#5E81AC"
-magenta = "#B48EAD"
-cyan = "#88C0D0"
-white = "#ECEFF4"
-
-[colors.dim]
-black = "#3B4252"
-red = "#BF616A"
-green = "#4C9A85"  # 使用较暗的绿色作为暗淡颜色
-yellow = "#EBCB8B"
-blue = "#5E81AC"
-magenta = "#B48EAD"
-cyan = "#88C0D0"
-white = "#ECEFF4"
-
-[[colors.indexed_colors]]
-index = 16
-color = "#A3BE8C"  # 调整为与主要绿色一致
-
-[[colors.indexed_colors]]
-index = 17
-color = "#4C566A"  # 使用较深灰色作为次要颜色
-
+black   = "#57606A"
+red     = "#A40E26"
+green   = "#116329"
+yellow  = "#7D4E00"
+blue    = "#0550AE"
+magenta = "#6639BA"
+cyan    = "#0F5257"
+white   = "#FFFFFF"

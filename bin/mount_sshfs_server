@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# --- timeouts (aggressive, as requested) ---
+TIMEOUT_SEC=2           # sshfs mount must finish within 2s
+TIMEOUT_KILL_SEC=1      # after TIMEOUT_SEC, wait 1s then SIGKILL
+HEALTH_TIMEOUT_SEC=2    # post-mount touch check
+
+MP_JENKINS="/data/share/jenkins"
+MP_EMSERVER="/data/share/emserver"
+MP_EMSERVER2="/data/share/emserver-new"   # avoid busy old /data/share/emserver2
+
+mkdir -p "$MP_JENKINS" "$MP_EMSERVER" "$MP_EMSERVER2"
+
+# IMPORTANT: keep ssh_command a plain string (no printf %q), otherwise sshfs may break when appending args.
+SSH_COMMAND="ssh -o BatchMode=yes -o ConnectTimeout=2 -o ServerAliveInterval=15 -o ServerAliveCountMax=3"
+
+SSHFS_OPT=(
+  -o reconnect
+  -o allow_other
+  -o delay_connect
+  -o Compression=yes
+  -o "ssh_command=${SSH_COMMAND}"
+)
+
+say() { printf '%s\n' "$*"; }
+is_mounted() { mountpoint -q "$1"; }
+
+umount_one() {
+  local mp="$1"
+  fusermount3 -uz "$mp" 2>/dev/null || true
+}
+
+health_check() {
+  local mp="$1"
+  # try to touch the mount quickly; if it returns EIO/hangs -> treat as broken
+  timeout "$HEALTH_TIMEOUT_SEC" ls -la "$mp" >/dev/null 2>&1
+}
+
+mount_one() {
+  local mp="$1" src="$2"
+
+  if is_mounted "$mp"; then
+    say "[OK] already mounted: $mp"
+    return 0
+  fi
+
+  say "[DO] mounting: $src -> $mp"
+  if ! timeout -k "${TIMEOUT_KILL_SEC}" "${TIMEOUT_SEC}" \
+        sshfs "$src" "$mp" "${SSHFS_OPT[@]}"; then
+    say "[SKIP] mount failed or timed out: $src -> $mp"
+    # 防止残留“半挂载”状态
+    umount_one "$mp"
+    return 0
+  fi
+
+  if health_check "$mp"; then
+    say "[OK] mounted & healthy: $mp"
+  else
+    say "[BAD] mounted but not usable (EIO/hang). Auto-umount: $mp"
+    umount_one "$mp"
+  fi
+}
+
+case "${1:-}" in
+  --umount|-u)
+    say "[DO] umount all"
+    umount_one "$MP_JENKINS"
+    umount_one "$MP_EMSERVER"
+    umount_one "$MP_EMSERVER2"
+    exit 0
+    ;;
+esac
+
+mount_one "$MP_JENKINS"   "emserver-jenkins:"
+mount_one "$MP_EMSERVER"  "emserver-czg:"
+mount_one "$MP_EMSERVER2" "emserver2-czg:"
+

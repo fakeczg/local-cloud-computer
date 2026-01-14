@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -e
+
+if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+  export INPUT_METHOD=fcitx5
+  export GTK_IM_MODULE=fcitx5
+  export QT_IM_MODULE=fcitx5
+  export XMODIFIERS='@im=fcitx5'   # Wayland 下无关紧要
+else
+  export INPUT_METHOD=fcitx
+  export GTK_IM_MODULE=fcitx
+  export QT_IM_MODULE=fcitx
+  export XMODIFIERS='@im=fcitx'    # X11 必须是 fcitx
+fi
+
+exec /opt/wechat/wechat "$@"
+

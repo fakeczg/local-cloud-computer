@@ -58,6 +58,7 @@ idle_fg = "#ffe5b4"
 
 [[block]]
 block = "sound"
+driver = "pulseaudio"
 [[block.click]]
 button = "left"
 cmd = "pavucontrol"

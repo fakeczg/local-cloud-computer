@@ -20,8 +20,11 @@ exec --no-startup-id /opt/clash-for-windows-bin/cfw
 #exec --no-startup-id  xrandr  --output eDP-1 --primary --mode 2880x1800 -r 60
 # 公司台式电脑
 #exec --no-startup-id  xrandr  --output HDMI-2 --primary --mode 1920x1080 -r 60 --scale 1.0
-exec --no-startup-id  xrandr  --output HDMI-2 --primary --mode 1920x1080 -r 60 --scale 1.0
-exec --no-startup-id  xrandr  --output DP-2 --primary --mode 2560x1440 -r 120
+#exec --no-startup-id  xrandr  --output HDMI-2 --primary --mode 1920x1080 -r 60 --scale 1.0
+#exec --no-startup-id  xrandr  --output DP-2 --primary --mode 2560x1440 -r 120
+exec --no-startup-id xrandr \
+  --output DP-2 --primary --mode 2560x1440 --rate 120 \
+  --output DP-1 --mode 1920x1080 --rate 60 --right-of DP-2
 
 # 设置桌面的背景, feh: 这是一个轻量级的图像查看器和背景设置工具
 # 笔记本
